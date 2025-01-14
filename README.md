@@ -8,6 +8,7 @@ Special thanks to **[Katie](https://github.com/katiehuangx)** for inspiring me o
 
 ## 📚 Table of Contents
 
-Simply click on the links below to access the solution to each case study.
-- **[Case Study #1: Danny's Diner](https://github.com/nacht29/SQL/tree/main/8-week-SQL-challenge/danny_diner)**
-- **[Case Study #2: Pizza Runner](https://github.com/nacht29/SQL/tree/main/8-week-SQL-challenge/pizza_runner)**
+#### The solutions for each case study is presented as markdown reports. Click on any link to view the reports.
+
+### [Case Study #1: Danny's Diner](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/danny_diner)
+### [Case Study #2: Pizza Runner](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner)
