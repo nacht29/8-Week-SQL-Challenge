@@ -1,6 +1,14 @@
 -- clean customer_orders table
 -- exclusions/extras are toppings to remove/add to pizzas
-CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order AS
+-- in MySQL, datatypes have to be specified during the creation of temp tables instead of using ALTER later
+CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
+	order_id INT,
+	customer_id INT,
+	pizza_id INT,
+	exclusions VARCHAR(50),
+	extras VARCHAR(50),
+	order_time DATETIME
+) AS
 SELECT
 	order_id,
 	customer_id,
@@ -21,16 +29,18 @@ SELECT
 FROM
 	customer_orders;
 
--- SELECT * FROM tmp_customer_order;
 
-ALTER TABLE tmp_customer_order
-ALTER COLUMN order_time DATETIME;
-
--- cleam runner_orders table
--- replaces null str and NULL val as ' '
--- double TRIM to trim 'minutes' wtc, then trim the space
---		e.g. 13 minute$ -> 13 $ -> 13$
-CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order AS
+-- clean runner_orders table
+-- double TRIM to handle cases of % min and %min
+--		e.g. 13 min$ -> 13 $ -> 13$
+CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order (
+	order_id INT,
+	runner_id INT,
+	pickup_time DATETIME,
+	distance DECIMAL(10,2),
+	duration INT,
+	cancellation VARCHAR(50)
+) AS
 SELECT
 	order_id,
 	runner_id,
@@ -69,9 +79,5 @@ SELECT
 FROM
 	runner_orders;
 
--- SELECT * FROM tmp_runner_order;
-
-ALTER TABLE tmp_runner_order
-ALTER COLUMN pickup_time DATETIME,
-ALTER distance DECIMAL,
-ALTER duration INT;
+SELECT * FROM tmp_customer_order;
+SELECT * FROM tmp_runner_order;
