@@ -20,8 +20,11 @@ SELECT
 	order_time
 FROM
 	customer_orders;
+
 -- SELECT * FROM tmp_customer_order;
 
+ALTER TABLE tmp_customer_order
+ALTER COLUMN order_time DATETIME;
 
 -- cleam runner_orders table
 -- replaces null str and NULL val as ' '
@@ -65,4 +68,10 @@ SELECT
 		END AS cancellation
 FROM
 	runner_orders;
+
 -- SELECT * FROM tmp_runner_order;
+
+ALTER TABLE tmp_runner_order
+ALTER COLUMN pickup_time DATETIME,
+ALTER distance DECIMAL,
+ALTER duration INT;

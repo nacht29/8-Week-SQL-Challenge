@@ -1,17 +1,17 @@
 # 🍕 Case Study #2 Pizza Runner
 
-<img src="https://user-images.githubusercontent.com/81607668/127271856-3c0d5b4a-baab-472c-9e24-3c1e3c3359b2.png" alt="Image" width="500" height="520">
+![Image](https://github.com/user-attachments/assets/c3bf086f-7b94-4286-976a-f4f7eb8dce8c)
 
 ## 📚 Table of Contents
 - [Task Summary](#task-summary)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
 - Questions and Solutions
-	- Data Cleaning and Transformation
-	- A. [Pizza Metrics](pizza-metrics)
-	- B. [Runner and Customer Experience](runner-and-customer-experience)
-	- C. [Ingredient Optimisation](ingredient-optimisation)
-	- D. [Pricing and Ratings](pricing-and-ratings)
-	- E. [Bonus DML Challenges](bonus-dml-challenges)
+	- [Data Cleaning and Transformation](#data-cleaning-and-transformation)
+	- A. [Pizza Metrics](#pizza-metrics)
+	- B. [Runner and Customer Experience](#runner-and-customer-experience)
+	- C. [Ingredient Optimisation](#ingredient-optimisation)
+	- D. [Pricing and Ratings](#pricing-and-ratings)
+	- E. [Bonus DML Challenges](#bonus-dml-challenges)
 
 ## Task Summary
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent and also which menu items are their favourite.
@@ -19,11 +19,14 @@ Danny wants to use the data to answer a few simple questions about his customers
 ### Entity Relationship Diagram
 ![Pizza Runner](https://github.com/katiehuangx/8-Week-SQL-Challenge/assets/81607668/78099a4e-4d0e-421f-a560-b72e4321f530)
 
-## Questions and Solutions
+## Data Cleaning and Transformation
 
-#### Table: ```customer_orders```
+### Table: ```customer_orders```
 
 **Before:**
+
+- The ```exclusions``` column contains missing/null values.
+- The ```extras``` column contains missing/null values.
 
 |order_id|customer_id|pizza_id|exclusions|extras|order_time         |
 |--------|-----------|--------|----------|------|-------------------|
@@ -42,4 +45,81 @@ Danny wants to use the data to answer a few simple questions about his customers
 |10      |104        |1       |null      |null  |2020-01-11 18:34:49|
 |10      |104        |1       |2, 6      |1, 4  |2020-01-11 18:34:49|
 
-The ```customer_orders``` contains 
+**Cleaning:**
+
+```sql
+CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order AS
+SELECT
+	order_id,
+	customer_id,
+	pizza_id,
+	CASE
+		WHEN exclusions IS NULL OR exclusions LIKE 'null'
+			THEN ' '
+		ELSE
+			exclusions
+		END AS exclusions,
+	CASE
+		WHEN extras IS NULL OR extras LIKE 'null'
+			THEN ' '
+		ELSE
+			extras
+	END AS extras,
+	order_time
+FROM
+	customer_orders;
+```
+
+### Table: ```runner_orders```
+
+**Cleaning:**
+
+```sql
+CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order AS
+SELECT
+	order_id,
+	runner_id,
+	CASE
+		WHEN pickup_time IS NULL OR pickup_time LIKE 'null' 
+			THEN ' '
+		ELSE
+			pickup_time
+		END AS pickup_time,
+	CASE
+		WHEN distance IS NULL OR distance LIKE 'null'
+			THEN ' '
+		WHEN distance LIKE '%km' OR distance LIKE '% km'
+			THEN TRIM(TRIM('km' FROM distance))
+		ELSE
+			distance
+		END AS distance,
+	CASE
+		WHEN duration IS NULL OR duration LIKE 'null'
+			THEN ' '
+		WHEN duration LIKE '%mins' OR duration LIKE '% mins'
+			THEN TRIM(TRIM('mins' FROM duration))
+		WHEN duration LIKE '%minute' OR duration LIKE '% minute'
+			THEN TRIM(TRIM('minute' FROM duration))
+		WHEN duration LIKE '%minutes' OR duration LIKE '% minutes'
+			THEN TRIM(TRIM('minutes' FROM duration))
+		ELSE
+			duration
+		END AS duration,
+	CASE
+		WHEN cancellation IS NULL OR cancellation LIKE 'null'
+			THEN ' '
+		ELSE
+			cancellation
+		END AS cancellation
+FROM
+	runner_orders;
+```
+
+**Transformation:**
+
+```sql
+ALTER TABLE tmp_runner_order
+ALTER COLUMN pickup_time DATETIME,
+ALTER distance FLOAT,
+ALTER duration INT;
+```
