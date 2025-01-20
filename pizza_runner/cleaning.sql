@@ -27,7 +27,7 @@ FROM
 -- replaces null str and NULL val as ' '
 -- double TRIM to trim 'minutes' wtc, then trim the space
 --		e.g. 13 minute$ -> 13 $ -> 13$
-CREATE TEMPORARY TABLE tmp_runner_order AS
+CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order AS
 SELECT
 	order_id,
 	runner_id,
