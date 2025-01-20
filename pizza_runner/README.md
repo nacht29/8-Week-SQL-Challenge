@@ -21,7 +21,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ## Data Cleaning and Transformation
 
-To read the full script, please click **[here]([https://github.com/katiehuangx/8-Week-SQL-Challenge/assets/81607668/78099a4e-4d0e-421f-a560-b72e4321f530](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/cleaning.sql))**.
+To read the full script, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/cleaning.sql)**.
 
 ### Table: ```customer_orders```
 
