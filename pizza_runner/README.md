@@ -17,13 +17,14 @@
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent and also which menu items are their favourite.
 
 ### Entity Relationship Diagram
+
 ![Pizza Runner](https://github.com/katiehuangx/8-Week-SQL-Challenge/assets/81607668/78099a4e-4d0e-421f-a560-b72e4321f530)
 
-## Data Cleaning and Transformation
+## 🛠️ Data Cleaning and Transformation
 
 To read the full script, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/cleaning.sql)**.
 
-### Table: ```customer_orders```
+### 📊 Table: ```customer_orders```
 
 **Before:**
 
@@ -116,7 +117,7 @@ FROM
 
 ***
 
-### Table: ```runner_orders```
+### 📊 Table: ```runner_orders```
 
 **Before:**
 
@@ -234,6 +235,8 @@ CASE
 |8       |2        |2020-01-10 00:15:02|23.4    |15      |                   |
 |9       |2        |           |        |        |Customer Cancellation|
 |10      |1        |2020-01-11 18:50:20|10      |10      |                   |
+
+- As seen, columns with ```DATETIME``` and ```INT``` data types such as ```pickup_time``` and ```distance``` show the value 0 as empty spaces.
 
 ***
 
