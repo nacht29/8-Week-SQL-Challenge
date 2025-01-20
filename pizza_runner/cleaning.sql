@@ -46,13 +46,13 @@ SELECT
 	runner_id,
 	CASE
 		WHEN pickup_time IS NULL OR pickup_time LIKE 'null' 
-			THEN ' '
+			THEN 0
 		ELSE
 			pickup_time
 		END AS pickup_time,
 	CASE
 		WHEN distance IS NULL OR distance LIKE 'null'
-			THEN ' '
+			THEN 0
 		WHEN distance LIKE '%km' OR distance LIKE '% km'
 			THEN TRIM(TRIM('km' FROM distance))
 		ELSE
@@ -60,7 +60,7 @@ SELECT
 		END AS distance,
 	CASE
 		WHEN duration IS NULL OR duration LIKE 'null'
-			THEN ' '
+			THEN 0
 		WHEN duration LIKE '%mins' OR duration LIKE '% mins'
 			THEN TRIM(TRIM('mins' FROM duration))
 		WHEN duration LIKE '%minute' OR duration LIKE '% minute'
