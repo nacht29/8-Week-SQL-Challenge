@@ -39,7 +39,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
 ) AS 
 ```
 
-- Create a temporary table ```tmp_customer_order``` to store the cleaned and transformed data from the ```customer_orders``` table. Temporary tables exists until the session ends, and is able to be queried like a normal table without altering the data in the original table. A session is started when a client connects to the SQL server, amd is terminated when either the client explicitly disconnects or a connection timeout occurs. 
+- Create a temporary table ```tmp_customer_order``` to store the cleaned and transformed data from the ```customer_orders``` table. Temporary tables exists until the session ends, and is able to be queried like a normal table without altering the data in the original table. A session is started when a client connects to the SQL server, and is terminated when either the client explicitly disconnects or a connection timeout occurs. 
 - Cast the columns to their supposed data type, such as ```order_time``` is supposed to be a ```DATETIME``` data type as it stores the date and time an order is placed, as opposed to ```VARCHAR```.
 
 ```sql

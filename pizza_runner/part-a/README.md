@@ -98,6 +98,8 @@ GROUP BY
 	pizza.pizza_name;
 ```
 
+- Use ```COUNT```  to calcute the number of entries for succesful entries
+
 **Solution 2:**
 
 ```sql
