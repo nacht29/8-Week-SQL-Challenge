@@ -1,6 +1,6 @@
 -- clean customer_orders table
 -- exclusions/extras are toppings to remove/add to pizzas
--- in MySQL, datatypes have to be specified during the creation of temp tables instead of using ALTER later
+-- DROP TABLE IF EXISTS tmp_customer_order;
 CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
 	order_id INT,
 	customer_id INT,
@@ -8,20 +8,20 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
 	exclusions VARCHAR(50),
 	extras VARCHAR(50),
 	order_time DATETIME
-) AS
+) AS 
 SELECT
 	order_id,
 	customer_id,
 	pizza_id,
 	CASE
-		WHEN exclusions IS NULL OR exclusions LIKE 'null'
-			THEN ' '
+		WHEN exclusions IS NULL OR exclusions LIKE 'null' OR exclusions = ''
+			THEN NULL
 		ELSE
 			exclusions
 		END AS exclusions,
 	CASE
-		WHEN extras IS NULL OR extras LIKE 'null'
-			THEN ' '
+		WHEN extras IS NULL OR extras LIKE 'null' OR extras = ''
+			THEN NULL
 		ELSE
 			extras
 	END AS extras,
@@ -33,6 +33,7 @@ FROM
 -- clean runner_orders table
 -- double TRIM to handle cases of % min and %min
 --		e.g. 13 min$ -> 13 $ -> 13$
+-- DROP TABLE IF EXISTS tmp_runner_order;
 CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order (
 	order_id INT,
 	runner_id INT,
@@ -45,39 +46,39 @@ SELECT
 	order_id,
 	runner_id,
 	CASE
-		WHEN pickup_time IS NULL OR pickup_time LIKE 'null' 
-			THEN 0
+		WHEN pickup_time IS NULL OR pickup_time LIKE 'null'  OR pickup_time LIKE ''
+			THEN NULL
 		ELSE
-			pickup_time
-		END AS pickup_time,
+			CAST(pickup_time AS DATETIME)
+	END AS pickup_time,
 	CASE
-		WHEN distance IS NULL OR distance LIKE 'null'
-			THEN 0
+		WHEN distance IS NULL OR distance LIKE 'null' OR distance LIKE ''
+			THEN NULL
 		WHEN distance LIKE '%km' OR distance LIKE '% km'
 			THEN TRIM(TRIM('km' FROM distance))
 		ELSE
 			distance
-		END AS distance,
+	END AS distance,
 	CASE
-		WHEN duration IS NULL OR duration LIKE 'null'
-			THEN 0
+		WHEN duration IS NULL OR duration LIKE 'null' OR duration LIKE ''
+			THEN NULL
 		WHEN duration LIKE '%mins' OR duration LIKE '% mins'
-			THEN TRIM(TRIM('mins' FROM duration))
+			THEN TRIM(BOTH ' ' FROM TRIM('mins' FROM duration))
 		WHEN duration LIKE '%minute' OR duration LIKE '% minute'
-			THEN TRIM(TRIM('minute' FROM duration))
+			THEN TRIM(BOTH ' ' FROM TRIM('minute' FROM duration))
 		WHEN duration LIKE '%minutes' OR duration LIKE '% minutes'
-			THEN TRIM(TRIM('minutes' FROM duration))
+			THEN TRIM(BOTH ' ' FROM TRIM('minutes' FROM duration))
 		ELSE
 			duration
-		END AS duration,
+	END AS duration,
 	CASE
-		WHEN cancellation IS NULL OR cancellation LIKE 'null'
-			THEN ' '
+		WHEN cancellation IS NULL OR cancellation LIKE 'null' OR cancellation LIKE ''
+			THEN NULL
 		ELSE
 			cancellation
-		END AS cancellation
+	END AS cancellation
 FROM
 	runner_orders;
 
-SELECT * FROM tmp_customer_order;
-SELECT * FROM tmp_runner_order;
+-- SELECT * FROM tmp_customer_order;
+-- SELECT * FROM tmp_runner_order;

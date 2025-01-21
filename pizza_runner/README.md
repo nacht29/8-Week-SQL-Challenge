@@ -64,8 +64,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
 ```
 
 - Create a temporary table ```tmp_customer_order``` to store the cleaned and transformed data from the ```customer_orders``` table. Temporary tables exists until the session ends, and is able to be queried like a normal table without altering the data in the original table. A session is started when a client connects to the SQL server, amd is terminated when either the client explicitly disconnects or a connection timeout occurs. 
-- Due to syntax reasons in **MySQL**, data types need to be specified during the creation of temporary tables instead of using ```ALTER``` or ```MODIFY``` later.
-- Hence, note that ```order_date``` is casted to ```DATETIME``` prior to modifying and inserting data into the temporary table.
+- Cast the columns to their supposed data type, such as ```order_time``` is supposed to be a ```DATETIME``` data type as it stores the date and time an order is placed, as opposed to ```VARCHAR```.
 
 ```sql
 SELECT
@@ -74,13 +73,13 @@ SELECT
 	pizza_id,
 	CASE
 		WHEN exclusions IS NULL OR exclusions LIKE 'null'
-			THEN ' '
+			THEN NULL
 		ELSE
 			exclusions
 		END AS exclusions,
 	CASE
 		WHEN extras IS NULL OR extras LIKE 'null'
-			THEN ' '
+			THEN NULL
 		ELSE
 			extras
 	END AS extras,
@@ -89,9 +88,20 @@ FROM
 	customer_orders;
 ```
 
-- Use ```CASE WHEN``` statement to clean the data for the ```exclusions``` column. Replace NULL values (either the ```NULL``` data type or "null" string) with and empty space ' '. Else, keep the data for  ```exclusions``` column as is.
+- Use ```CASE WHEN``` statement to clean the data for the ```exclusions``` column. Standardise all missing values to NULL.
 - Apply the same cleaning method for the ```extras``` column.
 - As per the creation of the temporary table, ```exclusions``` and ```extras``` columns will be casted to the ```INT``` data type, and ```order_date``` to ```DATETIME```.
+
+**Transformation:**
+```sql
+UPDATE tmp_customer_order
+SET exclusions = NULL
+WHERE exclusions = '' AND order_id IS NOT NULL;
+
+UPDATE tmp_customer_order
+SET extras = NULL
+WHERE extras = '' AND order_id IS NOT NULL;
+```
 
 ***
 
@@ -165,8 +175,7 @@ CASE
 	END AS pickup_time,
 ```
 
--  Replace null/missing values in the ```pickup_time``` column with integer ```0```. When casted to ```DATETIME```, it will be shown as an empty space. If an empty space (' ') is used instead an error will arise during casting.
-- This has to do with how the computer, and in this case **MySQL** tracks ```DATETIME``` values as serial numbers, counting since a [specific date](#trivia).
+-  Standardise missing/null values in the ```pickup_time``` column as NULL.
 - Else, keep ```pickup_time``` as is. 
 - As per the creation of the temporary table, the ```pickup_time``` column is casted to ```DATETIME``` data type.
 
@@ -181,7 +190,7 @@ CASE
 	END AS distance,
 ```
 
-- Replace null/missing values in the ```distance``` column with integer ```0```. Again, this is to prevent raising errors.
+- Standardise missing/null values in the ```distance``` column with as NULL.
 - If the data in ```distance``` contains units such as "km", use ```TRIM``` to trim away the unit, then use ```TRIM``` again trim away any empty spaces.
 - Example (The "\$" is to show the end of the string):
 	- ```13 km$ ->TRIM unit-> 13 $ ->TRIM space-> 13$```
@@ -202,7 +211,7 @@ CASE
 			duration
 		END AS duration,
 ```
-- Replace null/missing values in the ```duration``` column with integer ```0```. This is to avoid error during casting.
+- Standardise the missing/null values in the ```duration``` as NULL.
 - If the data in ```duration``` contains units such as "minutes" or "mins", use ```TRIM``` to trim away the unit, then use ```TRIM``` again trim away any empty spaces.
 - Repeat the trimming process for all existing unit variations, including "minutes", "mins" and "minute".
 - Else, keep the data for ```duration``` as is.
@@ -216,7 +225,7 @@ CASE
 		cancellation
 	END AS cancellation
 ```
-- Replace null/missing values in the ```cancellation``` column with an empty space.
+- Standardise the missing/null values in the ```cancellation``` column as NULL.
 - Else, keep the data for ```cancellation``` as is.
 
 ***
