@@ -72,13 +72,13 @@ SELECT
 	customer_id,
 	pizza_id,
 	CASE
-		WHEN exclusions IS NULL OR exclusions LIKE 'null'
+		WHEN exclusions IS NULL OR exclusions LIKE 'null' OR exclusions = ''
 			THEN NULL
 		ELSE
 			exclusions
 		END AS exclusions,
 	CASE
-		WHEN extras IS NULL OR extras LIKE 'null'
+		WHEN extras IS NULL OR extras LIKE 'null' OR extras = ''
 			THEN NULL
 		ELSE
 			extras
@@ -92,36 +92,25 @@ FROM
 - Apply the same cleaning method for the ```extras``` column.
 - As per the creation of the temporary table, ```exclusions``` and ```extras``` columns will be casted to the ```INT``` data type, and ```order_date``` to ```DATETIME```.
 
-**Transformation:**
-```sql
-UPDATE tmp_customer_order
-SET exclusions = NULL
-WHERE exclusions = '' AND order_id IS NOT NULL;
-
-UPDATE tmp_customer_order
-SET extras = NULL
-WHERE extras = '' AND order_id IS NOT NULL;
-```
-
 ***
 
 **After:**
 
 |order_id|customer_id|pizza_id|exclusions|extras|order_time         |
 |--------|-----------|--------|----------|------|-------------------|
-|1       |101        |1       |          |      |2020-01-01 18:05:02|
-|2       |101        |1       |          |      |2020-01-01 19:00:52|
-|3       |102        |1       |          |      |2020-01-02 23:51:23|
-|3       |102        |2       |          |      |2020-01-02 23:51:23|
-|4       |103        |1       |4         |      |2020-01-04 13:23:46|
-|4       |103        |1       |4         |      |2020-01-04 13:23:46|
-|4       |103        |2       |4         |      |2020-01-04 13:23:46|
-|5       |104        |1       |          |1     |2020-01-08 21:00:29|
-|6       |101        |2       |          |      |2020-01-08 21:03:13|
-|7       |105        |2       |          |1     |2020-01-08 21:20:29|
-|8       |102        |1       |          |      |2020-01-09 23:54:33|
+|1       |101        |1       |NULL      |NULL  |2020-01-01 18:05:02|
+|2       |101        |1       |NULL      |NULL  |2020-01-01 19:00:52|
+|3       |102        |1       |NULL      |NULL  |2020-01-02 23:51:23|
+|3       |102        |2       |NULL      |NULL  |2020-01-02 23:51:23|
+|4       |103        |1       |4         |NULL  |2020-01-04 13:23:46|
+|4       |103        |1       |4         |NULL  |2020-01-04 13:23:46|
+|4       |103        |2       |4         |NULL  |2020-01-04 13:23:46|
+|5       |104        |1       |NULL      |1     |2020-01-08 21:00:29|
+|6       |101        |2       |NULL      |NULL  |2020-01-08 21:03:13|
+|7       |105        |2       |NULL      |1     |2020-01-08 21:20:29|
+|8       |102        |1       |NULL      |NULL  |2020-01-09 23:54:33|
 |9       |103        |1       |4         |1, 5  |2020-01-10 11:22:59|
-|10      |104        |1       |          |      |2020-01-11 18:34:49|
+|10      |104        |1       |NULL      |NULL  |2020-01-11 18:34:49|
 |10      |104        |1       |2, 6      |1, 4  |2020-01-11 18:34:49|
 
 
@@ -168,10 +157,10 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order (
 
 ```sql
 CASE
-	WHEN pickup_time IS NULL OR pickup_time LIKE 'null' 
-		THEN 0
+	WHEN pickup_time IS NULL OR pickup_time LIKE 'null'  OR pickup_time LIKE ''
+		THEN NULL
 	ELSE
-		pickup_time
+		CAST(pickup_time AS DATETIME)
 	END AS pickup_time,
 ```
 
@@ -181,8 +170,8 @@ CASE
 
 ```sql
 CASE
-	WHEN distance IS NULL OR distance LIKE 'null'
-		THEN 0
+	WHEN distance IS NULL OR distance LIKE 'null' OR distance LIKE ''
+		THEN NULL
 	WHEN distance LIKE '%km' OR distance LIKE '% km'
 		THEN TRIM(TRIM('km' FROM distance))
 	ELSE
@@ -198,18 +187,17 @@ CASE
 - As per the creation of the temporary table, ```distance``` is casted to ```DECIMAL(10,2)```, with 2 decimal points to ensure consistency.
 
 ```sql
-	CASE
-		WHEN duration IS NULL OR duration LIKE 'null'
-			THEN 0
-		WHEN duration LIKE '%mins' OR duration LIKE '% mins'
-			THEN TRIM(TRIM('mins' FROM duration))
-		WHEN duration LIKE '%minute' OR duration LIKE '% minute'
-			THEN TRIM(TRIM('minute' FROM duration))
-		WHEN duration LIKE '%minutes' OR duration LIKE '% minutes'
-			THEN TRIM(TRIM('minutes' FROM duration))
-		ELSE
-			duration
-		END AS duration,
+CASE
+	WHEN duration IS NULL OR duration LIKE 'null' OR duration LIKE ''
+		THEN NULL
+	WHEN duration LIKE '%mins' OR duration LIKE '% mins'
+		THEN TRIM(BOTH ' ' FROM TRIM('mins' FROM duration))
+	WHEN duration LIKE '%minute' OR duration LIKE '% minute'
+		THEN TRIM(BOTH ' ' FROM TRIM('minute' FROM duration))
+	WHEN duration LIKE '%minutes' OR duration LIKE '% minutes'
+		THEN TRIM(BOTH ' ' FROM TRIM('minutes' FROM duration))
+	ELSE
+		duration
 ```
 - Standardise the missing/null values in the ```duration``` as NULL.
 - If the data in ```duration``` contains units such as "minutes" or "mins", use ```TRIM``` to trim away the unit, then use ```TRIM``` again trim away any empty spaces.
@@ -219,7 +207,7 @@ CASE
 
 ```sql
 CASE
-	WHEN cancellation IS NULL OR cancellation LIKE 'null'
+	WHEN cancellation IS NULL OR cancellation LIKE 'null' OR cancellation LIKE ''
 		THEN ' '
 	ELSE
 		cancellation
@@ -232,24 +220,16 @@ CASE
 
 **After:**
 
-|order_id|runner_id|pickup_time|distance|duration|cancellation       |
-|--------|---------|-----------|--------|--------|-------------------|
-|1       |1        |2020-01-01 18:15:34|20      |32      |                   |
-|2       |1        |2020-01-01 19:10:54|20      |27      |                   |
-|3       |1        |2020-01-03 00:12:37|13.4    |20      |                   |
-|4       |2        |2020-01-04 13:53:03|23.4    |40      |                   |
-|5       |3        |2020-01-08 21:10:57|10      |15      |                   |
-|6       |3        |           |        |        |Restaurant Cancellation|
-|7       |2        |2020-01-08 21:30:45|25      |25      |                   |
-|8       |2        |2020-01-10 00:15:02|23.4    |15      |                   |
-|9       |2        |           |        |        |Customer Cancellation|
-|10      |1        |2020-01-11 18:50:20|10      |10      |                   |
+|order_id|runner_id|pickup_time|distance|duration|cancellation               |
+|--------|---------|-----------|--------|--------|---------------------------|
+|1       |1        |2020-01-01 18:15:34|20.00   |32      |NULL               |
+|2       |1        |2020-01-01 19:10:54|20.00   |27      |NULL               |
+|3       |1        |2020-01-03 00:12:37|13.40   |20      |NULL               |
+|4       |2        |2020-01-04 13:53:03|23.40   |40      |NULL               |
+|5       |3        |2020-01-08 21:10:57|10.00   |15      |NULL               |
+|6       |3        |NULL       |NULL    |NULL   |Restaurant Cancellation     |
+|7       |2        |2020-01-08 21:30:45|25.00   |25      |NULL               |
+|8       |2        |2020-01-10 00:15:02|23.40   |15      |NULL               |
+|9       |2        |NULL       |NULL    |NULL   |Customer Cancellation       |
+|10      |1        |2020-01-11 18:50:20|10.00   |10      |NULL               |
 
-- As seen, columns with ```DATETIME``` and ```INT``` data types such as ```pickup_time``` and ```distance``` show the value 0 as empty spaces.
-
-***
-
-### Trivia - DATETIME
-Unix, which is the backbone of many modern operating systems like macOS, Android, iOS, and Linux, counts time as the number of seconds that have passed since midnight UTC on January 1, 1970.
-
-Hence, casting an empty space (' ') cannot to ```DATETIME`` will raise errors in this case as empty space cannot be counted like a serial number.
