@@ -98,7 +98,10 @@ GROUP BY
 	pizza.pizza_name;
 ```
 
-- Use ```COUNT```  to calcute the number of entries for succesful entries
+- Use ```COUNT```  to calcute the number of entries for succesful deliveries.
+- Filter out unsuccessful deliveries, use ```JOIN``` to combine ```tmp_customer_order``` (aliased as ```tco```) and ```tmp_runner_order``` (aliased as ```tro```) where both the delivery ```distance``` and ```duration``` are not missing and are larger than 0. Also, ```cancellation``` needs to be NULL, which means the delivery did not get scheduled.
+- Use ```COUNT``` and ```GROUP BY``` to calculate the number of successful deliveries for each pizza seperately.
+
 
 **Solution 2:**
 
@@ -127,6 +130,10 @@ GROUP BY
 	pizza_names.pizza_name;
 ```
 
+- Create a CTE ```delivery``` which holds data of successful deliveries, containing the ```order_id``` and ```pizza_id``` of the order. Check the second point of the solution above for the definition of a successful delivery.
+- Match the ```pizza_name``` to the ```pizza_id``` of the successful deliveries.
+- Use ```COUNT``` and ```GROUP BY``` to calculate the number of successful deliveries for each pizza seperately.
+
 **Answer:**
 
 |pizza_name|successful_delivery|
@@ -154,17 +161,29 @@ WHERE
 	pizza.pizza_name = 'Meatlovers' OR pizza.pizza_name = 'Vegetarian'
 GROUP BY
 	tco.customer_id,
-	pizza.pizza_name;
+	pizza.pizza_name
+ORDER BY
+	tco.customer_id;
 ```
+
+- Use ```COUNT``` and ```GROUP BY``` to calculate the number of orders for each pizza separately. The ```GROUP BY``` clause also ensures the calculation is done for each customer with a unique ```customer_id``` separately.
+- Use ```WHERE``` to specify the calculation for Meatlovers and Vegetarian pizzas only.
+
 **Answer:**
 
 |customer_id|pizza_name|ordered|
 |-----------|----------|-------|
 |101        |Meatlovers|2      |
+|101        |Vegetarian|1      |
 |102        |Meatlovers|2      |
 |102        |Vegetarian|1      |
 |103        |Meatlovers|3      |
 |103        |Vegetarian|1      |
 |104        |Meatlovers|3      |
-|101        |Vegetarian|1      |
 |105        |Vegetarian|1      |
+
+- Customer 101 ordered 2 Meatlovers pizzas and 1 Vegetarian pizza.
+- Customer 102 ordered 2 Meatlovers pizzas and 1 Vegetarian pizza.
+- Customer 103 ordered 3 Meatlovers pizzas and 1 Vegetarian pizza.
+- Customer 104 ordered 3 Meatlovers pizzas.
+- Customer 105 ordered 3 Meatlovers pizzas and 1 Vegetarian pizza.
