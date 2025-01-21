@@ -23,7 +23,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 ## 🛠️ Data Cleaning and Transformation
 
 - To read the **full script**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/cleaning.sql)**.
-- To read the **explanation** in details, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaing/README.md)**.
+- To read the **explanation** in details, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/README.md)**.
 
 ## A. Pizza Metrics
 
