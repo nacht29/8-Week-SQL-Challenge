@@ -187,3 +187,67 @@ ORDER BY
 - Customer 103 ordered 3 Meatlovers pizzas and 1 Vegetarian pizza.
 - Customer 104 ordered 3 Meatlovers pizzas.
 - Customer 105 ordered 3 Meatlovers pizzas and 1 Vegetarian pizza.
+
+**6. What was the maximum number of pizzas delivered in a single order?**
+
+```sql
+WITH pizza_per_order AS (
+	SELECT
+		tmp_customer_order.order_id,
+		COUNT(*) AS pizza_delivered
+	FROM
+		tmp_customer_order
+	JOIN tmp_runner_order
+		ON tmp_customer_order.order_id = tmp_runner_order.order_id
+		AND (distance > 0 AND distance IS NOT NULL)
+		AND (duration > 0 AND duration IS NOT NULL)
+		AND (cancellation IS NULL)
+	GROUP BY
+		tmp_customer_order.order_id
+	ORDER BY
+		pizza_delivered DESC
+)
+
+SELECT
+	pizza_delivered AS most_delivered_per_order
+FROM
+	pizza_per_order
+LIMIT 1;
+```
+
+**To locate specific orders that contributed the most pizza delivered in a single order:**
+
+```sql
+WITH pizza_per_order AS (
+	SELECT
+		tmp_customer_order.order_id,
+		COUNT(*) AS pizza_delivered
+	FROM
+		tmp_customer_order
+	JOIN tmp_runner_order
+		ON tmp_customer_order.order_id = tmp_runner_order.order_id
+		AND (distance > 0 AND distance IS NOT NULL)
+		AND (duration > 0 AND duration IS NOT NULL)
+		AND (cancellation IS NULL)
+	GROUP BY
+		tmp_customer_order.order_id
+),
+
+pizza_per_order_ranked AS (
+	SELECT
+		*,
+		DENSE_RANK() OVER(
+			ORDER BY pizza_delivered DESC
+		) AS delivery_ranking
+	FROM
+		pizza_per_order
+)
+
+SELECT
+	order_id,
+	pizza_delivered
+FROM
+	pizza_per_order_ranked
+WHERE
+	delivery_ranking = 1;
+```
