@@ -204,16 +204,25 @@ WITH pizza_per_order AS (
 		AND (cancellation IS NULL)
 	GROUP BY
 		tmp_customer_order.order_id
-	ORDER BY
-		pizza_delivered DESC
 )
 
 SELECT
-	pizza_delivered AS most_delivered_per_order
+	MAX(pizza_delivered) AS most_delivered_per_order
 FROM
-	pizza_per_order
-LIMIT 1;
+	pizza_per_order;
 ```
+
+- Create a CTE ```pizza_per_order``` and use ```COUNT``` to caclulate the number of pizzas delivered per ```order_id```.
+- Use ```pizza_delivered DESC``` to arrange the data in descending order of ```pizza_delivered```. The ```order_id``` with the most pizzas delivered will be on top.
+- Use ```MAX``` to select the maximum value of ```pizza_delivered```.
+
+**Answer:**
+
+|most_delivered_per_order|
+|------------------------|
+|3                       |
+
+- The maximum number of pizzas delivered in a single order is 3.
 
 **To locate specific orders that contributed the most pizza delivered in a single order:**
 
@@ -251,3 +260,9 @@ FROM
 WHERE
 	delivery_ranking = 1;
 ```
+
+**Output:**
+
+|order_id|pizza_delivered|
+|--------|---------------|
+|4       |3              |
