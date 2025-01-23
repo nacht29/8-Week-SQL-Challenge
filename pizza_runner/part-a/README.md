@@ -206,6 +206,8 @@ WITH pizza_per_order AS (
 		tmp_customer_order.order_id
 )
 
+SELECT * FROM pizza_per_order;
+
 SELECT
 	MAX(pizza_delivered) AS most_delivered_per_order
 FROM
@@ -217,6 +219,17 @@ FROM
 - Use ```MAX``` to select the maximum value of ```pizza_delivered```.
 
 **Answer:**
+
+|order_id|pizza_delivered|
+|--------|---------------|
+|1       |1              |
+|2       |1              |
+|3       |2              |
+|4       |3              |
+|5       |1              |
+|7       |1              |
+|8       |1              |
+|10      |2              |
 
 |most_delivered_per_order|
 |------------------------|
@@ -266,3 +279,86 @@ WHERE
 |order_id|pizza_delivered|
 |--------|---------------|
 |4       |3              |
+
+
+**7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
+
+```sql
+WITH delivered AS (
+	SELECT
+		tco.customer_id,
+		CASE
+			WHEN exclusions IS NULL AND extras IS NULL
+				THEN 'N'
+			ELSE
+				'Y'
+			END AS changed
+	FROM
+		tmp_customer_order AS tco
+	JOIN tmp_runner_order AS tro
+		ON tco.order_id = tro.order_id
+		AND (distance > 0 AND distance IS NOT NULL)
+		AND (duration > 0 AND duration IS NOT NULL)
+		AND (cancellation IS NULL)
+)
+
+SELECT
+	customer_id,
+	SUM(CASE WHEN changed = 'Y' THEN 1 ELSE 0 END) AS changes_made,
+	SUM(CASE WHEN changed = 'N' THEN 1 ELSE 0 END) AS no_changes
+FROM
+	delivered
+GROUP BY
+	customer_id;
+```
+
+**Answer:**
+
+|customer_id|changes_made|no_changes|
+|-----------|------------|----------|
+|101        |0           |2         |
+|102        |0           |3         |
+|103        |3           |0         |
+|104        |2           |1         |
+|105        |1           |0         |
+
+**8. How many pizzas were delivered that had both exclusions and extras?**
+
+```sql
+CREATE TEMPORARY TABLE IF NOT EXISTS delivered AS
+SELECT
+	tco.order_id,
+	tco.exclusions,
+	tco.extras
+FROM
+	tmp_customer_order AS tco
+JOIN tmp_runner_order AS tro
+	ON tco.order_id = tro.order_id
+	AND (distance > 0 AND distance IS NOT NULL)
+	AND (duration > 0 AND duration IS NOT NULL)
+	AND (cancellation IS NULL)
+WHERE
+	tco.exclusions IS NOT NULL
+	AND tco.extras IS NOT NULL;
+
+-- View the data
+SELECT * FROM delivered;
+
+-- Count orders with both exclusions and extras
+SELECT
+	COUNT(*) AS exclusions_and_extras
+FROM
+	delivered;
+
+DROP TABLE IF EXISTS delivered;
+```
+
+**Answer:**
+
+|order_id|exclusions|extras|
+|--------|----------|------|
+|10      |2, 6      |1, 4  |
+
+|exclusions_and_extras|
+|---------------------|
+|1                    |
