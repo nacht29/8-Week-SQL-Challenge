@@ -34,28 +34,28 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ## Part A - Pizza Metrics
 
-- To view the **solutions and explanations**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**.
+- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**.
 
 ***
 
 ## Part B - Runner and Customer Experience
 
-- To view the **solutions and explanations**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience)**.
+- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience)**.
 
 ***
 
 ## Part C - Ingredient Optimisation
 
-- To view the **solutions and explanations**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
+- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
 
 ***
 
 ## Part D - Pricing and Ratings
 
-- To view the **solutions and explanations**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20D%3A%20Pricing%20and%20Ratings)**.
+- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20D%3A%20Pricing%20and%20Ratings)**.
 
 ***
 
 ## Part E - Bonus Questions
 
-- To view the **solutions and explanations**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20E%3A%20Bonus%20Questions)**.
+- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20E%3A%20Bonus%20Questions)**.
