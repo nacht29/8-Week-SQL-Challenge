@@ -36,21 +36,25 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 - To read the **detailed explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**.
 
+***
 
 ## Part B - Runner and Customer Experience
 
 - To read the **detailed explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience)**.
 
+***
 
 ## Part C - Ingredient Optimisation
 
 - To read the **detailed explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
 
+***
 
 ## Part D - Pricing and Ratings
 
 - To read the **detailed explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20D%3A%20Pricing%20and%20Ratings)**.
 
+***
 
 ## Part E - Bonus Questions
 
