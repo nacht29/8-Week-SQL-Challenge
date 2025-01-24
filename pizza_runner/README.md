@@ -28,3 +28,4 @@ Danny wants to use the data to answer a few simple questions about his customers
 ## Part A: Pizza Metrics
 
 - To read the **explanation** in details, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**.
+

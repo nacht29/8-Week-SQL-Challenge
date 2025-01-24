@@ -41,6 +41,8 @@ FROM
 
 - There were 5 unique customer orders.
 
+***
+
 **3. How many successful orders were delivered by each runner?**
 
 ```sql
@@ -188,6 +190,8 @@ ORDER BY
 - Customer 104 ordered 3 Meatlovers pizzas.
 - Customer 105 ordered 3 Meatlovers pizzas and 1 Vegetarian pizza.
 
+***
+
 **6. What was the maximum number of pizzas delivered in a single order?**
 
 ```sql
@@ -281,6 +285,8 @@ WHERE
 |4       |3              |
 
 
+***
+
 **7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?**
 
 ```sql
@@ -331,6 +337,8 @@ GROUP BY
 - Customer with ```customer_id: 103``` had 3 pizzas with changes and no pizzas with changes delivered.
 - Customer with ```customer_id: 104``` had 2 pizzas with changes and 1 pizza with changes delivered.
 - Customer with ```customer_id: 105``` had 1 pizzas with changes and no pizzas with changes delivered.
+
+***
 
 **8. How many pizzas were delivered that had both exclusions and extras?**
 
@@ -413,6 +421,7 @@ FROM
 |---------------------|
 |1                    |
 
+***
 
 **9. What was the total volume of pizzas ordered for each hour of the day?**
 
@@ -489,6 +498,8 @@ SELECT * FROM order_by_hour_ranked;
 |11         |1            |2      |
 |19         |1            |2      |
 
+***
+
 **10. What was the volume of orders for each day of the week?**
 
 ```sql
@@ -557,3 +568,7 @@ SELECT * FROM order_by_day_ranked;
 |Wednesday  |5            |1      |
 |Thursday   |3            |2      |
 |Friday     |1            |3      |
+
+***
+
+Part A ends here. Click **[here to continue to Part B](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience)**.
