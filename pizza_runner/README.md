@@ -7,7 +7,7 @@
 - [Entity Relationship Diagram](#entity-relationship-diagram)
 - Questions and Solutions
 	- [Data Cleaning and Transformation](#data-cleaning-and-transformation)
-	-  [A. Pizza Metrics](#pizza-metrics)
+	-  [A. Pizza Metrics](#part-a:-pizza-metrics)
 	-  [B. Runner and Customer Experience](#runner-and-customer-experience)
 	-  [C. Ingredient Optimisation](#ingredient-optimisation)
 	-  [D. Pricing and Ratings](#pricing-and-ratings)
@@ -25,6 +25,6 @@ Danny wants to use the data to answer a few simple questions about his customers
 - To read the **full script**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/cleaning.sql)**.
 - To read the **explanation** in details, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/README.md)**.
 
-## A. Pizza Metrics
+## Part A: Pizza Metrics
 
 - To read the **explanation** in details, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/part-a/README.md)**.

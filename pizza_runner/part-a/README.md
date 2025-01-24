@@ -1,4 +1,4 @@
-# A. Pizza Metrics
+# Part A: Pizza Metrics
 
 ## Questions and Solutions
 
@@ -312,6 +312,10 @@ GROUP BY
 	customer_id;
 ```
 
+- Create a CTE ```delivered``` that contains the data for all delivered orders and if the pizzas received any changes for those orders. Change were made if either the ```exlucions``` (remove toppings) or ```extras``` (add toppings) is not NULL.
+- Record if any changes were made to the pizzas ordered as 'Y' for 'Yes' and 'N' for 'No'.
+- Use ```SUM``` to count the number of 'Y' and 'N' for each customer (made changes vs no changes). Use ```GROUP BY``` to do this for each customer separately.
+
 **Answer:**
 
 |customer_id|changes_made|no_changes|
@@ -321,6 +325,12 @@ GROUP BY
 |103        |3           |0         |
 |104        |2           |1         |
 |105        |1           |0         |
+
+- Customer with ```customer_id: 101``` had no pizzas with changes and 2 pizzas with changes delivered.
+- Customer with ```customer_id: 102``` had no pizzas with changes and 3 pizzas with changes delivered.
+- Customer with ```customer_id: 103``` had 3 pizzas with changes and no pizzas with changes delivered.
+- Customer with ```customer_id: 104``` had 2 pizzas with changes and 1 pizza with changes delivered.
+- Customer with ```customer_id: 105``` had 1 pizzas with changes and no pizzas with changes delivered.
 
 **8. How many pizzas were delivered that had both exclusions and extras?**
 
@@ -353,6 +363,12 @@ FROM
 DROP TABLE IF EXISTS delivered;
 ```
 
+- Create a temporary table ```delivered``` to store the ```order_id```, ```exclusions``` and ```extras``` data for all delivered orders. 
+- Filter the data by including only entries that have toppings added (```extras IS NOT NULL```) and removed (```exclusions IS NOT NULL```) for the pizzas delivered.
+- A temporary table is used in place of a CTE here as we need to run 2 main ```SELECT``` statements for the same set of data, whereas CTEs only work for a single ```SELECT``` statement.
+- The first ```SELECT``` statement is to get an overview of the data, while the second ```SELECT``` statement is to answer the secific question.
+- Drop the table after it has served its use.
+
 **Answer:**
 
 |order_id|exclusions|extras|
@@ -362,3 +378,182 @@ DROP TABLE IF EXISTS delivered;
 |exclusions_and_extras|
 |---------------------|
 |1                    |
+
+- As seen, there is only 1 entry with both ```exclusions``` and ```extras``` applied. The first table is an overview and the second table is the answer.
+
+**Simpler solution:**
+
+```sql
+WITH delivered AS (
+	SELECT
+		tco.order_id,
+		tco.exclusions,
+		tco.extras
+	FROM
+		tmp_customer_order AS tco
+	JOIN tmp_runner_order AS tro
+		ON tco.order_id = tro.order_id
+		AND (distance > 0 AND distance IS NOT NULL)
+		AND (duration > 0 AND duration IS NOT NULL)
+		AND (cancellation IS NULL)
+	WHERE
+		tco.exclusions IS NOT NULL
+		AND tco.extras IS NOT NULL
+)
+
+SELECT
+	COUNT(*) AS exclusions_and_extras
+FROM
+	delivered;
+```
+
+- Above is a more concise solution, which only gives:
+
+|exclusions_and_extras|
+|---------------------|
+|1                    |
+
+
+**9. What was the total volume of pizzas ordered for each hour of the day?**
+
+```sql
+SELECT 
+	HOUR(order_time) AS hour_of_day, 
+	COUNT(*) AS pizza_ordered
+FROM 
+	tmp_customer_order
+GROUP BY 
+	hour_of_day
+ORDER BY 
+	pizza_ordered DESC,
+	hour_of_day;
+```
+
+- This question is to find out what is the peak ordering time across all days.
+- Use ```HOUR``` to group orders into hours of the day. The output follows a 24-hour format: 18 for 6:00 p.m. or 18:00, 23 for 11:00 p.m. or 23:00 and so on.
+- Use ```COUNT``` and ```GROUP BY``` to calculate the number of pizzas ordered for each hour of the day.
+- Use ```ORDER BY``` and ```DESC``` the data in descending order of pizzas ordered.
+
+**Answer:**
+
+|hour_of_day|pizza_ordered|
+|-----------|-------------|
+|13         |3            |
+|18         |3            |
+|21         |3            |
+|23         |3            |
+|11         |1            |
+|19         |1            |
+
+- Above is the overview of ordering volume of each hour of day.
+- Peak ordering hours are at 13:00, 18:00, 21:00 and 23:00.
+- 11:00 and 13:00 had relatively less orders.
+
+**To rank the order volume of each hour of the day:**
+
+```sql
+WITH order_by_hour AS (
+	SELECT 
+		HOUR(order_time) AS hour_of_day, 
+		COUNT(*) AS pizza_ordered
+	FROM 
+		tmp_customer_order
+	GROUP BY 
+		hour_of_day
+	ORDER BY 
+		pizza_ordered DESC,
+		hour_of_day
+),
+
+order_by_hour_ranked AS (
+	SELECT
+		*,
+		DENSE_RANK() OVER (
+			ORDER BY pizza_ordered DESC
+		) AS ranking
+	FROM
+		order_by_hour
+)
+
+SELECT * FROM order_by_hour_ranked;
+```
+
+- In this case, it gives:
+
+|hour_of_day|pizza_ordered|ranking|
+|-----------|-------------|-------|
+|13         |3            |1      |
+|18         |3            |1      |
+|21         |3            |1      |
+|23         |3            |1      |
+|11         |1            |2      |
+|19         |1            |2      |
+
+**10. What was the volume of orders for each day of the week?**
+
+```sql
+SELECT 
+	DAYNAME(order_time) AS day_of_week, 
+	COUNT(*) AS pizza_ordered
+FROM 
+	tmp_customer_order
+GROUP BY 
+	day_of_week
+ORDER BY 
+	pizza_ordered DESC,
+	day_of_week;
+```
+
+- The solution to question 10 is very similar to question 9, instead of using ```HOUR``` we use ```DAYNAME``` to group orders into days of a week, from "Sunday", "Monday"... etc.
+- Use ```COUNT``` and ```GROUP BY``` to calculate the number of pizzas ordered for each day of the week.
+- This allows us to find out days with peak orders.
+
+**Answer:**
+
+|day_of_week|pizza_ordered|
+|-----------|-------------|
+|Saturday   |5            |
+|Wednesday  |5            |
+|Thursday   |3            |
+|Friday     |1            |
+
+- Saturdays and Wednesdays have the highest volume of orders.
+- Thursdays have the second highest volume of orders.
+- Fridays have the lowest volume of orders.
+
+**To rank the order volume of each day of the week:**
+
+```sql
+WITH order_by_day AS (
+	SELECT 
+		DAYNAME(order_time) AS day_of_week, 
+		COUNT(*) AS pizza_ordered
+	FROM 
+		tmp_customer_order
+	GROUP BY 
+		day_of_week
+	ORDER BY 
+		pizza_ordered DESC,
+		day_of_week
+),
+
+order_by_day_ranked AS (
+	SELECT
+		*,
+		DENSE_RANK() OVER (
+			ORDER BY pizza_ordered DESC
+		) AS ranking
+	FROM
+		order_by_day
+)
+
+SELECT * FROM order_by_day_ranked;
+```
+- In this case, it gives:
+
+|day_of_week|pizza_ordered|ranking|
+|-----------|-------------|-------|
+|Saturday   |5            |1      |
+|Wednesday  |5            |1      |
+|Thursday   |3            |2      |
+|Friday     |1            |3      |

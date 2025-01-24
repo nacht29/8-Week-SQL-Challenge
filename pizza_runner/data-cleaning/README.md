@@ -6,6 +6,7 @@
 
 - The ```exclusions``` column contains missing/null values.
 - The ```extras``` column contains missing/null values.
+- The ```exclusions``` and ```extras``` are toppings to remove/add for pizzas.
 
 |order_id|customer_id|pizza_id|exclusions|extras|order_time         |
 |--------|-----------|--------|----------|------|-------------------|
