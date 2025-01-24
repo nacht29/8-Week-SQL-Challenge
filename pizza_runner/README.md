@@ -13,16 +13,16 @@
 - [Part E - Bonus Questions](#part-e---bonus-questions)
 
 ***
-***
 
 ## Task Summary
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent, and which menu items are their favorites.
+
+***
 
 ## Entity Relationship Diagram
 
 ![Pizza Runner](https://github.com/katiehuangx/8-Week-SQL-Challenge/assets/81607668/78099a4e-4d0e-421f-a560-b72e4321f530)
 
-***
 ***
 
 ## 🛠️ Data Cleaning and Transformation
@@ -30,7 +30,6 @@ Danny wants to use the data to answer a few simple questions about his customers
 - To read the **full script**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/cleaning.sql)**.
 - To read the **detailed explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/README.md)**.
 
-***
 ***
 
 ## Part A - Pizza Metrics
