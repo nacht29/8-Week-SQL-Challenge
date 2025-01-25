@@ -14,6 +14,8 @@ GROUP BY
 	registration_week;
 ```
 
+***
+
 **2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?**
 
 ```sql
@@ -32,6 +34,9 @@ JOIN tmp_customer_order AS tco
 GROUP BY
 	tro.runner_id;
 ```
+
+***
+
 **3. Is there any relationship between the number of pizzas and how long the order takes to prepare?**
 
 ```sql
@@ -82,3 +87,5 @@ GROUP BY
 - The average time taken to prepare 2 pizzas is 18 minutes.
 - The average time taken to prepare 3 pizzas is 29 minutes.
 - Hence, we can conclude that, the higher the number of pizzas demanded per order entry, the longer time taken to prepare the order.
+
+***
