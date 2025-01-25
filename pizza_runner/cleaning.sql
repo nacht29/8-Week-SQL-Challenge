@@ -7,7 +7,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
 	pizza_id INT,
 	exclusions VARCHAR(50),
 	extras VARCHAR(50),
-	order_time DATETIME
+	order_date DATETIME
 ) AS 
 SELECT
 	order_id,
@@ -25,7 +25,7 @@ SELECT
 		ELSE
 			extras
 	END AS extras,
-	order_time
+	order_date
 FROM
 	customer_orders;
 
@@ -80,5 +80,5 @@ SELECT
 FROM
 	runner_orders;
 
-SELECT * FROM tmp_customer_order;
-SELECT * FROM tmp_runner_order;
+-- SELECT * FROM tmp_customer_order;
+-- SELECT * FROM tmp_runner_order;

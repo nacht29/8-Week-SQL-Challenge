@@ -13,3 +13,72 @@ FROM
 GROUP BY
 	registration_week;
 ```
+
+**2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?**
+
+```sql
+SELECT
+	tro.runner_id,
+	ROUND(
+		AVG(
+			TIMESTAMPDIFF(MINUTE, tco.order_time, tro.pickup_time)) ,2) AS avg_pickup_time
+FROM
+	tmp_runner_order AS tro
+JOIN tmp_customer_order AS tco
+	ON tco.order_id = tro.order_id
+	AND tro.distance > 0 AND tro.distance IS NOT NULL
+	AND tro.duration > 0 AND tro.duration IS NOT NULL
+	AND tro.cancellation IS NULL
+GROUP BY
+	tro.runner_id;
+```
+**3. Is there any relationship between the number of pizzas and how long the order takes to prepare?**
+
+```sql
+WITH order_volume_and_prep_time AS (
+	SELECT
+		tco.order_id,
+		COUNT(*) AS order_volume,
+		TIMESTAMPDIFF(
+			MINUTE,
+			MIN(tco.order_time),
+			MAX(tro.pickup_time)
+		) AS total_prep_time
+	FROM
+		tmp_customer_order AS tco
+	JOIN tmp_runner_order AS tro
+		ON tco.order_id = tro.order_id
+		AND tro.distance > 0 AND tro.distance IS NOT NULL
+		AND tro.duration > 0 AND tro.duration IS NOT NULL
+		AND tro.cancellation IS NULL
+	GROUP BY
+		tco.order_id
+)
+
+SELECT
+	order_volume,
+	ROUND(AVG(total_prep_time) ,2) AS avg_prep_time
+FROM
+	order_volume_and_prep_time
+GROUP BY
+	order_volume;
+```
+- Create a CTE that stores:
+	- ```order_id```
+	- number of orders per ```order_id``` as ```order_volume```
+	- total preparation time for each ```order_id``` as ```total_prep_time```.
+- ```total_prep_time``` is the total time taken to prepare all items ordered per ```order_id```. Use ```TIMESTAMPDIFF``` to calculate the difference, in minutes, for the earliest ```order_time``` and the latest ```pickup_time```. This calculates the time difference between the first item ordered to the last item prepared for delivery for each order entry.
+- In the main query, use ```AVG``` to calculate the average time taken to produce different amounts of pizzas in a single order.
+
+**Answer:**
+
+|order_volume|avg_prep_time|
+|------------|-------------|
+|1           |12.00        |
+|2           |18.00        |
+|3           |29.00        |
+
+- The average time taken to prepare 1 pizza is 12 minutes.
+- The average time taken to prepare 2 pizzas is 18 minutes.
+- The average time taken to prepare 3 pizzas is 29 minutes.
+- Hence, we can conclude that, the higher the number of pizzas demanded per order entry, the longer time taken to prepare the order.

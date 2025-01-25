@@ -93,7 +93,7 @@ JOIN pizza_names AS pizza
 	ON pizza.pizza_id = tco.pizza_id
 JOIN tmp_runner_order AS tro
 	ON tco.order_id = tro.order_id
-    AND tro.distance > 0 AND tro.distance IS NOT NULL
+	AND tro.distance > 0 AND tro.distance IS NOT NULL
 	AND tro.distance > 0 AND tro.duration IS NOT NULL
 	AND tro.cancellation IS NULL
 GROUP BY
