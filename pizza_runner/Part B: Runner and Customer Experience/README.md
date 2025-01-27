@@ -14,6 +14,21 @@ GROUP BY
 	registration_week;
 ```
 
+- Use ```WEEK``` to separate the registration entries by week. Note the ```+ 1``` as the count starts with week 0.
+- Use ```COUNT``` and ```GROUP BY``` to calculate the number of registrations for each separate week.
+
+**Answer:**
+
+|registration_week|registration_count|
+|-----------------|------------------|
+|1                |1                 |
+|2                |2                 |
+|3                |1                 |
+
+- The first week had 1 runner signing up.
+- The second week had 2 runners signing up.
+- The third week had 1 runner signing up.
+
 ***
 
 **2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?**
@@ -34,6 +49,22 @@ JOIN tmp_customer_order AS tco
 GROUP BY
 	tro.runner_id;
 ```
+
+- Use ```AVG``` and ```TIMESTAMPDIFF``` to calculate the average time for each runner to arrive (and pick up) their orders at the Pizza Runner HQ. The time taken is calculated by the difference between the time when the order is placed (```order_time```), to the time it is picked up (```pickup_time```).
+- Use ```ROUND``` to change the result to two decimal places.
+- Use ```GROUP BY``` to do the calculation for each separate runner.
+
+**Answer:**
+
+|runner_id|avg_pickup_time|
+|---------|---------------|
+|1        |15.33          |
+|2        |23.40          |
+|3        |10.00          |
+
+- Runner 1 takes 15.33 minutes on average to pickup his orders for delivery.
+- Runner 2 takes 23.40 minutes on average to pickup his orders for delivery.
+- Runner 3 takes 10.00 minutes on average to pickup his orders for delivery.
 
 ***
 
