@@ -191,7 +191,7 @@ SELECT * FROM runner_avg_speed;
 |2        |8       |23.40   |15      |1.56     |
 |3        |5       |10.00   |15      |0.67     |
 
-We can draw several insighths from this question:
+We can draw several insighths from this:
 
 **a. Which runner has the highest average speed?**
 
@@ -223,6 +223,10 @@ FROM
 |2      |1        |
 |3      |3        |
 
+- Runner 2 is ranked first in average speed, meaning he/she is the top performer.
+- Runner 1 is ranked second.
+- Runner 3 is ranked last, meaning he/she us the most underperforming runner.
+
 **Trend visualisation:**
 
 ![Image](https://github.com/user-attachments/assets/9cc640c9-7762-48fe-aa7b-86ecbc4bf772)
@@ -230,12 +234,76 @@ FROM
 This can answer the following questions:
 
 **b. Do runners slow down with larger orders or longer distances?**
+- For Runner 1, the trend shows a visible decrease in average speed as distance increases.
+- For Runner 2, his/her trend is very inconsistent, having a drastic gap in average speed for the same distance, as well as a significant spike in average speed as the distance increases.
+- For Runner 3, he/she only has one successful delivery, hence it is hard to tell the trend for this runner.
 
-**c. Which runner is the most consistent (lowest variance in speed)?**
+**c. Which runner is the most consistent?**
+- Runner 3, as he/she only has 1 delivery.
+
+For more insights:
 
 **d. Are there significant differences between runners, or is the performance fairly uniform?**
 
-**e. Are there specific runners who improve or decline over time?**
+First, we need to calculate the overall average speed each runner:
+
+```sql
+WITH overall_avg_speed AS (
+	SELECT
+		runner_id,
+		ROUND(AVG(avg_speed) ,2) AS overall_speed
+	FROM
+		runner_avg_speed
+	GROUP BY
+		runner_id
+)
+
+SELECT * FROM overall_avg_speed;
+```
+
+**Output:**
+
+|runner_id|overall_speed|
+|---------|-------------|
+|1        |0.76         |
+|2        |1.05         |
+|3        |0.67         |
+
+Then, we will calculate the percentage difference between the range and standard deviation:
+
+```py
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('csv-files/overall_avg_speed.csv')
+plt.figure(figsize=(8,6))
+
+avg_speed = np.array(df['runner_id'])
+std_dev = np.std(avg_speed)
+data_range = max(avg_speed) - min(avg_speed)
+print(f'Range: {data_range}')
+print(f'Standard deviation: {std_dev}')
+print(f'Difference in percentage: {((data_range - std_dev) / data_range * 100):.2f}%')
+```
+
+**Output:**
+```
+Range: 2
+Standard deviation: 0.816496580927726
+Difference in percentage: 59.18%
+```
+
+**Answer:**
+
+- Since the difference in percentage between the range and standard deviation of the data is relatively large at 59.18%, the performance between runners can be comsidered not uniform.
+
+**Visualisation:**
+
+![Image](https://github.com/user-attachments/assets/0e04ec57-7ba3-4388-af2e-528cc5630c90)
+
+Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/partB.ipynb)**
 
 ***
 
