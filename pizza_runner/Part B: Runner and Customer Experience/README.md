@@ -120,3 +120,17 @@ GROUP BY
 - Hence, we can conclude that, the higher the number of pizzas demanded per order entry, the longer time taken to prepare the order.
 
 ***
+
+**4. What was the average distance travelled for each customer?**
+
+***
+
+**5. What was the difference between the longest and shortest delivery times for all orders?**
+
+***
+
+**6. What was the average speed for each runner for each delivery and do you notice any trend for these values?**
+
+***
+
+**7. What is the successful delivery percentage for each runner?**
