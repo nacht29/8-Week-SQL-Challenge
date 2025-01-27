@@ -156,18 +156,86 @@ WHERE
 
 **6. What was the average speed for each runner for each delivery and do you notice any trend for these values?**
 
+First, let's create a temporary table to store the values:
+
+```sql
+DROP TABLE IF EXISTS runner_avg_speed;
+CREATE TEMPORARY TABLE IF NOT EXISTS runner_avg_speed AS
+SELECT 
+	runner_id,
+	order_id,
+	distance,
+	duration,
+	ROUND((distance / duration), 2) AS avg_speed
+FROM 
+	tmp_runner_order AS tro
+WHERE
+	distance > 0 
+	AND duration > 0
+	AND cancellation IS NULL
+ORDER BY
+	runner_id;
+SELECT * FROM runner_avg_speed;
+```
+
+**Output:**
+
+|runner_id|order_id|distance|duration|avg_speed|
+|---------|--------|--------|--------|---------|
+|1        |1       |20.00   |32      |0.63     |
+|1        |2       |20.00   |27      |0.74     |
+|1        |3       |13.40   |20      |0.67     |
+|1        |10      |10.00   |10      |1.00     |
+|2        |4       |23.40   |40      |0.59     |
+|2        |7       |25.00   |25      |1.00     |
+|2        |8       |23.40   |15      |1.56     |
+|3        |5       |10.00   |15      |0.67     |
+
 We can draw several insighths from this question:
 
-- Which runner has the highest average speed?
+**a. Which runner has the highest average speed?**
 
-- Do runners slow down with larger orders or longer distances?
+```sql
+WITH overall_avg_speed AS (
+	SELECT
+		runner_id,
+		ROUND(AVG(avg_speed) ,2) AS overall_speed
+	FROM
+		runner_avg_speed
+	GROUP BY
+		runner_id
+)
 
-- Which runner is the most consistent (lowest variance in speed)?
+SELECT
+	DENSE_RANK() OVER(
+		ORDER BY overall_speed DESC
+	) AS ranking,
+	runner_id
+FROM
+	overall_avg_speed;
+```
 
-- Are there significant differences between runners, or is the performance fairly uniform?
-	- For this, we can calculate the standard deviation in average speed across all runners.
+**Output:**
 
-- Are there specific runners who improve or decline over time?
+|ranking|runner_id|
+|-------|---------|
+|1      |2        |
+|2      |1        |
+|3      |3        |
+
+**Trend visualisation:**
+
+![Image](https://github.com/user-attachments/assets/9cc640c9-7762-48fe-aa7b-86ecbc4bf772)
+
+This can answer the following questions:
+
+**b. Do runners slow down with larger orders or longer distances?**
+
+**c. Which runner is the most consistent (lowest variance in speed)?**
+
+**d. Are there significant differences between runners, or is the performance fairly uniform?**
+
+**e. Are there specific runners who improve or decline over time?**
 
 ***
 
