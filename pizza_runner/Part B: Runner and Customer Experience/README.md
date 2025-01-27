@@ -123,13 +123,51 @@ GROUP BY
 
 **4. What was the average distance travelled for each customer?**
 
+```sql
+SELECT
+	tco.customer_id,
+	ROUND(AVG(tro.distance), 2) AS average_distance
+FROM
+	tmp_customer_order AS tco
+JOIN tmp_runner_order AS tro
+	ON tco.order_id = tro.order_id
+	AND tro.distance > 0 AND tro.distance IS NOT NULL
+	AND tro.duration > 0 AND tro.duration IS NOT NULL
+	AND tro.cancellation IS NULL
+GROUP BY
+	tco.customer_id;
+
+```
+
 ***
 
 **5. What was the difference between the longest and shortest delivery times for all orders?**
 
+```sql
+SELECT
+	MAX(duration) - MIN(duration) AS time_difference
+FROM
+	tmp_runner_order
+WHERE
+	cancellation IS NULL;
+```
+
 ***
 
 **6. What was the average speed for each runner for each delivery and do you notice any trend for these values?**
+
+We can draw several insighths from this question:
+
+- Which runner has the highest average speed?
+
+- Do runners slow down with larger orders or longer distances?
+
+- Which runner is the most consistent (lowest variance in speed)?
+
+- Are there significant differences between runners, or is the performance fairly uniform?
+	- For this, we can calculate the standard deviation in average speed across all runners.
+
+- Are there specific runners who improve or decline over time?
 
 ***
 
