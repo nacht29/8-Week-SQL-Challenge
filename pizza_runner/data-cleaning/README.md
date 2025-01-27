@@ -67,7 +67,7 @@ FROM
 
 - Use ```CASE WHEN``` statement to clean the data for the ```exclusions``` column. Standardise all missing values to NULL.
 - Apply the same cleaning method for the ```extras``` column.
-- As per the creation of the temporary table, ```exclusions``` and ```extras``` columns will be casted to the ```INT``` data type, and ```order_date``` to ```DATETIME```.
+- As per the creation of the temporary table, ```exclusions``` and ```extras``` columns will be casted to the ```INT``` data type, and ```order_time``` to ```DATETIME```.
 
 ***
 
