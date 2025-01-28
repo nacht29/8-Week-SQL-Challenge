@@ -38,9 +38,10 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ***
 
-## Part B - Runner and Customer Experience
+## Part B - Runner and Customer Experience (Python)
 
 - To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**.
+- Includes **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**
 
 ***
 
