@@ -7,7 +7,7 @@
 - [Entity Relationship Diagram](#entity-relationship-diagram)
 - [Data Cleaning and Transformation](#data-cleaning-and-transformation)
 - [Part A - Pizza Metrics](#part-a---pizza-metrics)
-- [Part B - Runner and Customer Experience](#part-b---runner-and-customer-experience)
+- [Part B - Runner and Customer Experience](#part-b---runner-and-customer-experience-(python))
 - [Part C - Ingredient Optimisation](#part-c---ingredient-optimisation)
 - [Part D - Pricing and Ratings](#part-d---pricing-and-ratings)
 - [Part E - Bonus Questions](#part-e---bonus-questions)
