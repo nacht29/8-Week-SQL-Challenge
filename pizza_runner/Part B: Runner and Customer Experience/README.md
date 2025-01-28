@@ -138,6 +138,24 @@ GROUP BY
 	tco.customer_id;
 
 ```
+- Use ```AVG``` and ```GROUP BY``` to calculate the average distance travelled for each customer sepatately.
+- Use ```ROUND``` to format the results to 2 decimal places.
+
+**Answer:**
+
+|customer_id|average_distance|
+|-----------|----------------|
+|101        |20.00           |
+|102        |16.73           |
+|103        |23.40           |
+|104        |10.00           |
+|105        |25.00           |
+
+- Customer 101 has an average distance travlled of 20.00 km.
+- Customer 102 has an average distance travlled of 16.73 km.
+- Customer 103 has an average distance travlled of 23.40 km.
+- Customer 104 has an average distance travlled of 10.00 km.
+- Customer 105 has an average distance travlled of 25.00 km.
 
 ***
 
@@ -149,8 +167,18 @@ SELECT
 FROM
 	tmp_runner_order
 WHERE
-	cancellation IS NULL;
+	distance > 0 AND distance IS NOT NULL
+	AND duration > 0 AND duration IS NOT NULL
+	AND cancellation IS NULL;
 ```
+
+- Use ```MAX``` and ```MIN``` to find the longest and shortest delivery time across all orders and calculate their difference to find the range.
+
+|time_difference|
+|---------------|
+|30             |
+
+- The difference between the longest and shortest delivery times for all orders (aka range) is 30 minutes.
 
 ***
 
@@ -308,3 +336,39 @@ Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challen
 ***
 
 **7. What is the successful delivery percentage for each runner?**
+
+```sql
+WITH delivery_record AS (
+	SELECT
+		tco.order_id,
+		tro.runner_id,
+		CASE
+			WHEN (duration > 0 AND duration IS NOT NULL 
+			AND distance > 0 AND distance IS NOT NULL
+			AND cancellation IS NULL)
+				THEN 'Y'
+			ELSE
+				'N'
+		END AS success
+	FROM
+		tmp_customer_order AS tco
+	LEFT JOIN tmp_runner_order AS tro
+		ON tco.order_id = tro.order_id
+)
+
+SELECT
+	runner_id,
+	ROUND(SUM(CASE WHEN success = 'Y' THEN 1 ELSE 0 END) / COUNT(*) * 100 ,2) AS del_percentage
+FROM
+	delivery_record
+GROUP BY
+	runner_id;
+```
+
+**Answer:**
+
+|runner_id|del_percentage|
+|---------|--------------|
+|1        |100.00        |
+|2        |83.33         |
+|3        |50.00         |
