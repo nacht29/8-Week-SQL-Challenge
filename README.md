@@ -11,4 +11,9 @@ Special thanks to **[Katie](https://github.com/katiehuangx)** for inspiring me o
 **The solutions for each case study is presented as markdown reports. Click on any link to view the reports.**
 
 - ### [Case Study #1: Danny's Diner](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%231%20-%20Danny's%20Diner/README.md)
-- ### [Case Study #2: Pizza Runner](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/README.md)
+- ### [Case Study #2: Pizza Runner](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/README.md) (Python)
+
+***
+
+Notes:
+(Python) label means certain parts of the case study contains Python code for analysis and/or visualisation.
