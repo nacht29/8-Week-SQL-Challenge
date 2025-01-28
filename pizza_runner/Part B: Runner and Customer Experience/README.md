@@ -372,3 +372,7 @@ GROUP BY
 |1        |100.00        |
 |2        |83.33         |
 |3        |50.00         |
+
+***
+
+Part B ends here. Click **[here to continue to Part C](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
