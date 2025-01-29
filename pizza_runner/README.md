@@ -34,29 +34,29 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ## Part A - Pizza Metrics
 
-- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**.
+- **[Questions and solution](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**.
 
 ***
 
 ## Part B - Runner and Customer Experience (Python)
 
-- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**.
-- Includes **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**
+- **[Questions and solution](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**.
+- **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**
 
 ***
 
 ## Part C - Ingredient Optimisation
 
-- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
+- **[Questions and solution](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
 
 ***
 
 ## Part D - Pricing and Ratings
 
-- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20D%3A%20Pricing%20and%20Ratings)**.
+- **[Questions and solution](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20D%3A%20Pricing%20and%20Ratings)**.
 
 ***
 
 ## Part E - Bonus Questions
 
-- To view the **questions and solutions, with explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20E%3A%20Bonus%20Questions)**.
+- **[Questions and solution](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20E%3A%20Bonus%20Questions)**.

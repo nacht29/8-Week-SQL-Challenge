@@ -219,6 +219,10 @@ SELECT * FROM runner_avg_speed;
 |2        |8       |23.40   |15      |1.56     |
 |3        |5       |10.00   |15      |0.67     |
 
+**Visualisation:**
+
+![Image](https://github.com/user-attachments/assets/cf927947-60fe-4d4e-b632-3bc0ec72bb10)
+
 We can draw several insighths from this:
 
 **a. Which runner has the highest average speed?**
@@ -300,14 +304,6 @@ SELECT * FROM overall_avg_speed;
 Then, we will calculate the percentage difference between the range and standard deviation:
 
 ```py
-import pandas as pd
-import seaborn as sns
-import numpy as np
-import matplotlib.pyplot as plt
-
-df = pd.read_csv('csv-files/overall_avg_speed.csv')
-plt.figure(figsize=(8,6))
-
 avg_speed = np.array(df['runner_id'])
 std_dev = np.std(avg_speed)
 data_range = max(avg_speed) - min(avg_speed)
