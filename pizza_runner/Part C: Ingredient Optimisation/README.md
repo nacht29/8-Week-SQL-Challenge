@@ -12,13 +12,13 @@ WITH RECURSIVE idx AS (
 	FROM idx
 	WHERE n < (
 		SELECT
-			MAX(LENGTH(toppings) - LENGTH(REPLACE(REPLACE(toppings, ' ', ''), ',', '')) + 1)
+			MAX(LENGTH(toppings) - LENGTH(REPLACE(toppings, ',', '')) + 1)
 		FROM
 			pizza_recipes
 	)
 ),
 
-topping_idexing AS (
+split_topping AS (
 	SELECT 
 		pr.pizza_id,
 		pn.pizza_name,
@@ -39,13 +39,12 @@ SELECT
 	tpi.*,
 	pt.topping_name
 FROM
-	topping_idexing AS tpi
+	split_topping AS tpi
 JOIN pizza_toppings AS pt
 	ON tpi.topping_id = pt.topping_id
 ORDER BY
 	tpi.pizza_id,
 	tpi.topping_id;
-
 ```
 
 **Answer:**
@@ -71,9 +70,233 @@ ORDER BY
 
 **2. What was the most commonly added extra?**
 
+**Full script:**
+
+```sql
+WITH RECURSIVE idx AS (
+	SELECT 1 AS n
+	UNION ALL
+	SELECT n + 1 
+	FROM idx
+	WHERE n < (
+		SELECT 
+			MAX(LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1)
+		FROM customer_orders
+		WHERE
+			extras IS NOT NULL 
+	)
+),
+
+split_extras AS (
+	SELECT 
+		TRIM(
+			SUBSTRING_INDEX(
+				SUBSTRING_INDEX(extras, ',', n), 
+				',', 
+				-1
+			)
+		) AS extra_id
+	FROM customer_orders
+	CROSS JOIN idx n
+	WHERE 
+		extras IS NOT NULL 
+		AND extras != 'null'
+		AND extras != ''
+		AND n <= LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1
+),
+
+extras_count AS (
+	SELECT
+		*,
+		COUNT(*) AS times_added
+	FROM
+		split_extras
+	GROUP BY
+		extra_id
+)
+
+SELECT
+	pt.topping_id,
+	pt.topping_name,
+	extras_count.times_added
+FROM
+	pizza_toppings AS pt
+JOIN extras_count
+	ON extra_id = pt.topping_id
+WHERE
+	extras_count.times_added = (SELECT MAX(times_added) FROM extras_count);
+```
+
+**A. Calculate the highest number of ```extras``` (extra topping) to be added to a pizza.**
+
+```sql
+WITH RECURSIVE idx AS (
+	SELECT 1 AS n
+	UNION ALL
+	SELECT n + 1 
+	FROM idx
+	WHERE n < (
+		SELECT 
+			MAX(LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1)
+		FROM customer_orders
+		WHERE
+			extras IS NOT NULL 
+	)
+)
+
+SELECT * FROM idx;
+```
+
+**Output:**
+
+|n|
+|-|
+|1|
+|2|
+
+- The maximmum ```extras``` is 2. This table also allows us to index and extract data properly later on.
+
+**B. Split the ```extras``` into individual columns**
+
+```sql
+split_extras AS (
+	SELECT 
+		TRIM(
+			SUBSTRING_INDEX(
+				SUBSTRING_INDEX(extras, ',', n), 
+				',', 
+				-1
+			)
+		) AS extra_id
+	FROM customer_orders
+	CROSS JOIN idx n
+	WHERE 
+		extras IS NOT NULL 
+		AND extras != 'null'
+		AND extras != ''
+		AND n <= LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1
+),
+
+SELECT * FROM split_extras;
+```
+
+**Output:**
+
+|extra_id|
+|--------|
+|1       |
+|1       |
+|5       |
+|1       |
+|4       |
+|1       |
+
+- The extras, represented by their ids, are split into different columns.
+
+**C. Calculate the times each topping, represented by their id, is added.**
+
+```sql
+extras_count AS (
+	SELECT
+		*,
+		COUNT(*) AS times_added
+	FROM
+		split_extras
+	GROUP BY
+		extra_id
+)
+```
+
+Finally,
+
+```sql
+SELECT
+	pt.topping_id,
+	pt.topping_name,
+	extra_count.times_added
+FROM
+	pizza_toppings AS pt
+JOIN extra_count
+	ON extra_id = pt.topping_id
+WHERE
+	extra_count.times_added = (SELECT MAX(times_added) FROM extra_count);
+```
+
+- Select the row where the count for extra toppings is maximum.
+
+**Answer:**
+
+|topping_id|topping_name|times_added|
+|----------|------------|-----------|
+|1         |Bacon       |4          |
+
+- Bacon is the most common extra (additional topping).
+
 ***
 
 **3. What was the most common exclusion?**
+
+```sql
+WITH RECURSIVE idx AS (
+	SELECT 1 AS n
+	UNION ALL
+	SELECT n + 1 
+	FROM idx
+	WHERE n < (
+		SELECT 
+			MAX(LENGTH(exclusions) - LENGTH(REPLACE(exclusions, ',', '')) + 1)
+		FROM customer_orders
+		WHERE
+			exclusions IS NOT NULL 
+	)
+),
+
+split_exclusions AS (
+	SELECT 
+		TRIM(
+			SUBSTRING_INDEX(
+				SUBSTRING_INDEX(exclusions, ',', n), 
+				',', 
+				-1
+			)
+		) AS extra_id
+	FROM customer_orders
+	CROSS JOIN idx n
+	WHERE 
+		exclusions IS NOT NULL 
+		AND exclusions != 'null'
+		AND exclusions != ''
+		AND n <= LENGTH(exclusions) - LENGTH(REPLACE(exclusions, ',', '')) + 1
+),
+
+exclusions_count AS (
+	SELECT
+		*,
+		COUNT(*) AS times_added
+	FROM
+		split_exclusions
+	GROUP BY
+		extra_id
+)
+
+SELECT
+	pt.topping_id,
+	pt.topping_name,
+	exclusions_count.times_added
+FROM
+	pizza_toppings AS pt
+JOIN exclusions_count
+	ON extra_id = pt.topping_id
+WHERE
+	exclusions_count.times_added = (SELECT MAX(times_added) FROM exclusions_count);
+```
+- The steps are very similiar to question 2. Just replace ```extras``` with ```exclusions```.
+
+**Answer:**
+|topping_id|topping_name|times_added|
+|----------|------------|-----------|
+|4         |Cheese      |4          |
+
 
 ***
 
