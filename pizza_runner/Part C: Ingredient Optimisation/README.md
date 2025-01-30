@@ -70,7 +70,7 @@ ORDER BY
 
 **2. What was the most commonly added extra?**
 
-**[Click to read full script](github.com)**
+**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q2.sql)**
 
 **A. Calculate the highest number of ```extras``` (extra topping) to be added to a pizza.**
 
@@ -181,7 +181,7 @@ WHERE
 
 **3. What was the most common exclusion?**
 
-**[Click to read full script](github.com)**
+**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q3.sql)**
 
 - The steps are very similiar to question 2. Just replace ```extras``` with ```exclusions```.
 
