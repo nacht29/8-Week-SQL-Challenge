@@ -209,4 +209,4 @@ WHERE
 |Tomato Sauce|3       |
 
 - The most used topping is bacon.
-- test
+- The second most used topping is mushroom.
