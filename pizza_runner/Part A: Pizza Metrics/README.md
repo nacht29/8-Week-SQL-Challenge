@@ -7,7 +7,7 @@
 ```sql
 SELECT
 	COUNT(*) AS pizza_ordered
-FROM tmp_customer_order;
+FROM std_customer_order;
 ```
 
 - Use ```COUNT``` to calculate the number of entries, as each entry is meant for 1 pizza.
@@ -28,7 +28,7 @@ FROM tmp_customer_order;
 SELECT
 	COUNT(DISTINCT customer_id) AS unique_order
 FROM
-	tmp_customer_order;
+	std_customer_order;
 ```
 - Use ```COUNT``` and ```DISTINCT``` to filter and count how many unique ```customer_id``` entries there are.
 - Each distinct customer has a unique id -- ```customer_id```.
@@ -50,7 +50,7 @@ SELECT
 	runner_id,
 	COUNT(*) AS successful_delivery
 FROM
-	tmp_runner_order
+	std_runner_order
 WHERE
 	(distance > 0 AND distance IS NOT NULL)
 	AND (duration > 0 AND duration IS NOT NULL)
@@ -88,10 +88,10 @@ SELECT
 	pizza.pizza_name,
 	COUNT(*) AS successful_delivery
 FROM
-	tmp_customer_order AS tco
+	std_customer_order AS tco
 JOIN pizza_names AS pizza
 	ON pizza.pizza_id = tco.pizza_id
-JOIN tmp_runner_order AS tro
+JOIN std_runner_order AS tro
 	ON tco.order_id = tro.order_id
 	AND tro.distance > 0 AND tro.distance IS NOT NULL
 	AND tro.distance > 0 AND tro.duration IS NOT NULL
@@ -101,7 +101,7 @@ GROUP BY
 ```
 
 - Use ```COUNT```  to calcute the number of entries for succesful deliveries.
-- Filter out unsuccessful deliveries, use ```JOIN``` to combine ```tmp_customer_order``` (aliased as ```tco```) and ```tmp_runner_order``` (aliased as ```tro```) where both the delivery ```distance``` and ```duration``` are not missing and are larger than 0. Also, ```cancellation``` needs to be NULL, which means the delivery did not get scheduled.
+- Filter out unsuccessful deliveries, use ```JOIN``` to combine ```std_customer_order``` (aliased as ```tco```) and ```std_runner_order``` (aliased as ```tro```) where both the delivery ```distance``` and ```duration``` are not missing and are larger than 0. Also, ```cancellation``` needs to be NULL, which means the delivery did not get scheduled.
 - Use ```COUNT``` and ```GROUP BY``` to calculate the number of successful deliveries for each pizza seperately.
 
 
@@ -110,15 +110,15 @@ GROUP BY
 ```sql
 WITH delivery AS (
 	SELECT
-		tmp_runner_order.order_id,
-		tmp_customer_order.pizza_id
+		std_runner_order.order_id,
+		std_customer_order.pizza_id
 	FROM
-		tmp_runner_order
-	JOIN tmp_customer_order
-		ON tmp_runner_order.order_id = tmp_customer_order.order_id
-		AND (tmp_runner_order.distance > 0 AND tmp_runner_order.distance IS NOT NULL)
-		AND (tmp_runner_order.duration > 0 AND tmp_runner_order.duration IS NOT NULL)
-		AND (tmp_runner_order.cancellation IS NULL)
+		std_runner_order
+	JOIN std_customer_order
+		ON std_runner_order.order_id = std_customer_order.order_id
+		AND (std_runner_order.distance > 0 AND std_runner_order.distance IS NOT NULL)
+		AND (std_runner_order.duration > 0 AND std_runner_order.duration IS NOT NULL)
+		AND (std_runner_order.cancellation IS NULL)
 )
 
 SELECT
@@ -156,7 +156,7 @@ SELECT
 	pizza.pizza_name,
 	COUNT(pizza.pizza_name) AS ordered
 FROM
-	tmp_customer_order AS tco
+	std_customer_order AS tco
 JOIN pizza_names AS pizza
 	ON pizza.pizza_id = tco.pizza_id
 WHERE
@@ -197,20 +197,18 @@ ORDER BY
 ```sql
 WITH pizza_per_order AS (
 	SELECT
-		tmp_customer_order.order_id,
+		std_customer_order.order_id,
 		COUNT(*) AS pizza_delivered
 	FROM
-		tmp_customer_order
-	JOIN tmp_runner_order
-		ON tmp_customer_order.order_id = tmp_runner_order.order_id
+		std_customer_order
+	JOIN std_runner_order
+		ON std_customer_order.order_id = std_runner_order.order_id
 		AND (distance > 0 AND distance IS NOT NULL)
 		AND (duration > 0 AND duration IS NOT NULL)
 		AND (cancellation IS NULL)
 	GROUP BY
-		tmp_customer_order.order_id
+		std_customer_order.order_id
 )
-
-SELECT * FROM pizza_per_order;
 
 SELECT
 	MAX(pizza_delivered) AS most_delivered_per_order
@@ -224,17 +222,6 @@ FROM
 
 **Answer:**
 
-|order_id|pizza_delivered|
-|--------|---------------|
-|1       |1              |
-|2       |1              |
-|3       |2              |
-|4       |3              |
-|5       |1              |
-|7       |1              |
-|8       |1              |
-|10      |2              |
-
 |most_delivered_per_order|
 |------------------------|
 |3                       |
@@ -246,17 +233,17 @@ FROM
 ```sql
 WITH pizza_per_order AS (
 	SELECT
-		tmp_customer_order.order_id,
+		std_customer_order.order_id,
 		COUNT(*) AS pizza_delivered
 	FROM
-		tmp_customer_order
-	JOIN tmp_runner_order
-		ON tmp_customer_order.order_id = tmp_runner_order.order_id
+		std_customer_order
+	JOIN std_runner_order
+		ON std_customer_order.order_id = std_runner_order.order_id
 		AND (distance > 0 AND distance IS NOT NULL)
 		AND (duration > 0 AND duration IS NOT NULL)
 		AND (cancellation IS NULL)
 	GROUP BY
-		tmp_customer_order.order_id
+		std_customer_order.order_id
 ),
 
 pizza_per_order_ranked AS (
@@ -300,8 +287,8 @@ WITH delivered AS (
 				'Y'
 			END AS changed
 	FROM
-		tmp_customer_order AS tco
-	JOIN tmp_runner_order AS tro
+		std_customer_order AS tco
+	JOIN std_runner_order AS tro
 		ON tco.order_id = tro.order_id
 		AND (distance > 0 AND distance IS NOT NULL)
 		AND (duration > 0 AND duration IS NOT NULL)
@@ -349,8 +336,8 @@ SELECT
 	tco.exclusions,
 	tco.extras
 FROM
-	tmp_customer_order AS tco
-JOIN tmp_runner_order AS tro
+	std_customer_order AS tco
+JOIN std_runner_order AS tro
 	ON tco.order_id = tro.order_id
 	AND (distance > 0 AND distance IS NOT NULL)
 	AND (duration > 0 AND duration IS NOT NULL)
@@ -398,8 +385,8 @@ WITH delivered AS (
 		tco.exclusions,
 		tco.extras
 	FROM
-		tmp_customer_order AS tco
-	JOIN tmp_runner_order AS tro
+		std_customer_order AS tco
+	JOIN std_runner_order AS tro
 		ON tco.order_id = tro.order_id
 		AND (distance > 0 AND distance IS NOT NULL)
 		AND (duration > 0 AND duration IS NOT NULL)
@@ -430,7 +417,7 @@ SELECT
 	HOUR(order_time) AS hour_of_day, 
 	COUNT(*) AS pizza_ordered
 FROM 
-	tmp_customer_order
+	std_customer_order
 GROUP BY 
 	hour_of_day
 ORDER BY 
@@ -466,7 +453,7 @@ WITH order_by_hour AS (
 		HOUR(order_time) AS hour_of_day, 
 		COUNT(*) AS pizza_ordered
 	FROM 
-		tmp_customer_order
+		std_customer_order
 	GROUP BY 
 		hour_of_day
 	ORDER BY 
@@ -507,7 +494,7 @@ SELECT
 	DAYNAME(order_time) AS day_of_week, 
 	COUNT(*) AS pizza_ordered
 FROM 
-	tmp_customer_order
+	std_customer_order
 GROUP BY 
 	day_of_week
 ORDER BY 
@@ -540,7 +527,7 @@ WITH order_by_day AS (
 		DAYNAME(order_time) AS day_of_week, 
 		COUNT(*) AS pizza_ordered
 	FROM 
-		tmp_customer_order
+		std_customer_order
 	GROUP BY 
 		day_of_week
 	ORDER BY 

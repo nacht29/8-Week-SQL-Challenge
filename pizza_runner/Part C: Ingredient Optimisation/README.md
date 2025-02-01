@@ -83,16 +83,14 @@ WITH RECURSIVE idx AS (
 	WHERE n < (
 		SELECT 
 			MAX(LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1)
-		FROM customer_orders
+		FROM std_customer_order
 		WHERE
 			extras IS NOT NULL 
 	)
-)
-
-SELECT * FROM idx;
+),
 ```
 
-**Output:**
+This creates a table column of indices for each extra added:
 
 |n|
 |-|
@@ -112,20 +110,16 @@ split_extras AS (
 				',', 
 				-1
 			)
-		) AS extra_id
-	FROM customer_orders
+		) AS extras_id
+	FROM std_customer_order
 	CROSS JOIN idx n
 	WHERE 
-		extras IS NOT NULL 
-		AND extras != 'null'
-		AND extras != ''
+		extras IS NOT NULL
 		AND n <= LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1
 ),
-
-SELECT * FROM split_extras;
 ```
 
-**Output:**
+This will result in:
 
 |extra_id|
 |--------|
@@ -148,7 +142,7 @@ extras_count AS (
 	FROM
 		split_extras
 	GROUP BY
-		extra_id
+		extras_id
 )
 ```
 
@@ -158,13 +152,13 @@ Finally,
 SELECT
 	pt.topping_id,
 	pt.topping_name,
-	extra_count.times_added
+	extras_count.times_added
 FROM
 	pizza_toppings AS pt
-JOIN extra_count
-	ON extra_id = pt.topping_id
+JOIN extras_count
+	ON extras_id = pt.topping_id
 WHERE
-	extra_count.times_added = (SELECT MAX(times_added) FROM extra_count);
+	extras_count.times_added = (SELECT MAX(times_added) FROM extras_count);
 ```
 
 - Select the row where the count for extra toppings is maximum.
@@ -193,19 +187,23 @@ WHERE
 
 ***
 
-**4. Generate an order item for each record in the customers_orders table in the format of one of the following:**
-
-- **```Meat Lovers```**
-- **```Meat Lovers - Exclude Beef```**
-- **```Meat Lovers - Extra Bacon```**
-- **```Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers```**
-
-***
-
-**5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients**
-
-- **For example: ```"Meat Lovers: 2xBacon, Beef, ... , Salami"```**
-
-***
-
 **6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?**
+
+**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q6.sql)**
+
+**Answer:**
+
+|topping_name|quantity|
+|------------|--------|
+|Bacon       |12      |
+|Mushrooms   |11      |
+|Cheese      |10      |
+|Beef        |9       |
+|Chicken     |9       |
+|Pepperoni   |9       |
+|Salami      |9       |
+|BBQ Sauce   |8       |
+|Onions      |3       |
+|Peppers     |3       |
+|Tomatoes    |3       |
+|Tomato Sauce|3       |

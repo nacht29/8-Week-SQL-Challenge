@@ -1,7 +1,7 @@
 -- clean customer_orders table
 -- exclusions/extras are toppings to remove/add to pizzas
-DROP TABLE IF EXISTS tmp_customer_order;
-CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
+DROP TABLE IF EXISTS std_customer_order;
+CREATE TABLE IF NOT EXISTS std_customer_order (
 	order_id INT,
 	customer_id INT,
 	pizza_id INT,
@@ -33,8 +33,8 @@ FROM
 -- clean runner_orders table
 -- double TRIM to handle cases of % min and %min
 --		e.g. 13 min$ -> 13 $ -> 13$
-DROP TABLE IF EXISTS tmp_runner_order;
-CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order (
+DROP TABLE IF EXISTS std_runner_order;
+CREATE TABLE IF NOT EXISTS std_runner_order (
 	order_id INT,
 	runner_id INT,
 	pickup_time DATETIME,
@@ -80,5 +80,5 @@ SELECT
 FROM
 	runner_orders;
 
-SELECT * FROM tmp_customer_order;
-SELECT * FROM tmp_runner_order;
+SELECT * FROM std_customer_order;
+SELECT * FROM std_runner_order;

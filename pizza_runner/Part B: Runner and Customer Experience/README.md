@@ -40,8 +40,8 @@ SELECT
 		AVG(
 			TIMESTAMPDIFF(MINUTE, tco.order_time, tro.pickup_time)) ,2) AS avg_pickup_time
 FROM
-	tmp_runner_order AS tro
-JOIN tmp_customer_order AS tco
+	std_runner_order AS tro
+JOIN std_customer_order AS tco
 	ON tco.order_id = tro.order_id
 	AND tro.distance > 0 AND tro.distance IS NOT NULL
 	AND tro.duration > 0 AND tro.duration IS NOT NULL
@@ -81,8 +81,8 @@ WITH order_volume_and_prep_time AS (
 			MAX(tro.pickup_time)
 		) AS total_prep_time
 	FROM
-		tmp_customer_order AS tco
-	JOIN tmp_runner_order AS tro
+		std_customer_order AS tco
+	JOIN std_runner_order AS tro
 		ON tco.order_id = tro.order_id
 		AND tro.distance > 0 AND tro.distance IS NOT NULL
 		AND tro.duration > 0 AND tro.duration IS NOT NULL
@@ -128,15 +128,14 @@ SELECT
 	tco.customer_id,
 	ROUND(AVG(tro.distance), 2) AS average_distance
 FROM
-	tmp_customer_order AS tco
-JOIN tmp_runner_order AS tro
+	std_customer_order AS tco
+JOIN std_runner_order AS tro
 	ON tco.order_id = tro.order_id
 	AND tro.distance > 0 AND tro.distance IS NOT NULL
 	AND tro.duration > 0 AND tro.duration IS NOT NULL
 	AND tro.cancellation IS NULL
 GROUP BY
 	tco.customer_id;
-
 ```
 - Use ```AVG``` and ```GROUP BY``` to calculate the average distance travelled for each customer sepatately.
 - Use ```ROUND``` to format the results to 2 decimal places.
@@ -165,7 +164,7 @@ GROUP BY
 SELECT
 	MAX(duration) - MIN(duration) AS time_difference
 FROM
-	tmp_runner_order
+	std_runner_order
 WHERE
 	distance > 0 AND distance IS NOT NULL
 	AND duration > 0 AND duration IS NOT NULL
@@ -187,8 +186,8 @@ WHERE
 First, let's create a temporary table to store the values:
 
 ```sql
-DROP TABLE IF EXISTS runner_avg_speed;
-CREATE TEMPORARY TABLE IF NOT EXISTS runner_avg_speed AS
+DROP TEMPORARY TABLE IF EXISTS runner_avg_speed;
+CREATE TEMPORARY TABLE runner_avg_speed AS
 SELECT 
 	runner_id,
 	order_id,
@@ -196,13 +195,14 @@ SELECT
 	duration,
 	ROUND((distance / duration), 2) AS avg_speed
 FROM 
-	tmp_runner_order AS tro
+	std_runner_order AS tro
 WHERE
 	distance > 0 
 	AND duration > 0
 	AND cancellation IS NULL
 ORDER BY
 	runner_id;
+
 SELECT * FROM runner_avg_speed;
 ```
 
@@ -347,8 +347,8 @@ WITH delivery_record AS (
 				'N'
 		END AS success
 	FROM
-		tmp_customer_order AS tco
-	LEFT JOIN tmp_runner_order AS tro
+		std_customer_order AS tco
+	LEFT JOIN std_runner_order AS tro
 		ON tco.order_id = tro.order_id
 )
 

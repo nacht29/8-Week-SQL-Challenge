@@ -6,7 +6,7 @@ WITH RECURSIVE idx AS (
 	WHERE n < (
 		SELECT 
 			MAX(LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1)
-		FROM customer_orders
+		FROM std_customer_order
 		WHERE
 			extras IS NOT NULL 
 	)
@@ -20,13 +20,11 @@ split_extras AS (
 				',', 
 				-1
 			)
-		) AS extra_id
-	FROM customer_orders
+		) AS extras_id
+	FROM std_customer_order
 	CROSS JOIN idx n
 	WHERE 
-		extras IS NOT NULL 
-		AND extras != 'null'
-		AND extras != ''
+		extras IS NOT NULL
 		AND n <= LENGTH(extras) - LENGTH(REPLACE(extras, ',', '')) + 1
 ),
 
@@ -37,7 +35,7 @@ extras_count AS (
 	FROM
 		split_extras
 	GROUP BY
-		extra_id
+		extras_id
 )
 
 SELECT
@@ -47,6 +45,6 @@ SELECT
 FROM
 	pizza_toppings AS pt
 JOIN extras_count
-	ON extra_id = pt.topping_id
+	ON extras_id = pt.topping_id
 WHERE
 	extras_count.times_added = (SELECT MAX(times_added) FROM extras_count);
