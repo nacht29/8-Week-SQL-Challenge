@@ -207,3 +207,5 @@ WHERE
 |Peppers     |3       |
 |Tomatoes    |3       |
 |Tomato Sauce|3       |
+
+- The most used topping is bacon.
