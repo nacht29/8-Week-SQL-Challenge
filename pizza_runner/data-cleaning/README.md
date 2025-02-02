@@ -30,7 +30,7 @@
 ### Cleaning
 
 ```sql
-CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
+CREATE TABLE IF NOT EXISTS std_customer_order (
 	order_id INT,
 	customer_id INT,
 	pizza_id INT,
@@ -40,7 +40,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_customer_order (
 ) AS 
 ```
 
-- Create a temporary table ```tmp_customer_order``` to store the cleaned and transformed data from the ```customer_orders``` table. Temporary tables exists until the session ends, and is able to be queried like a normal table without altering the data in the original table. A session is started when a client connects to the SQL server, and is terminated when either the client explicitly disconnects or a connection timeout occurs. 
+- Create a table ```std_customer_order``` (which stands for standardised customer order) to store the cleaned and transformed data from the ```customer_orders``` table. A permanent table is preferred over temporary tables as the latter comes with certain limitations, such as when working with CTEs
 - Cast the columns to their supposed data type, such as ```order_time``` is supposed to be a ```DATETIME``` data type as it stores the date and time an order is placed, as opposed to ```VARCHAR```.
 
 ```sql
@@ -120,7 +120,7 @@ The ```distance``` column also has unstandardised specifiers.
 ### Cleaning
 
 ```sql
-CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order (
+CREATE TABLE std_runner_order (
 	order_id INT,
 	runner_id INT,
 	pickup_time DATETIME,
@@ -130,7 +130,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_runner_order (
 ) AS
 ```
 
-- Create a temporary table ```tmp_runner_order```. Cast ```pickup_time``` as ```DATETIME```, ```distance``` as ```DECIMAL``` and ```duration``` as ```INT```. The use of ```DECIMAL``` instead of ```FLOAT``` is to ensure accuracy and consistency and to avoid futher rounding of the numerical data.
+- Create a table ```std_runner_order``` (which stands for standardised customer order). Cast ```pickup_time``` as ```DATETIME```, ```distance``` as ```DECIMAL``` and ```duration``` as ```INT```. The use of ```DECIMAL``` instead of ```FLOAT``` is to ensure accuracy and consistency and to avoid futher rounding of the numerical data.
 
 ```sql
 CASE
@@ -141,7 +141,7 @@ CASE
 	END AS pickup_time,
 ```
 
--  Standardise missing/null values in the ```pickup_time``` column as NULL.
+- Standardise missing/null values in the ```pickup_time``` column as NULL.
 - Else, keep ```pickup_time``` as is. 
 - As per the creation of the temporary table, the ```pickup_time``` column is casted to ```DATETIME``` data type.
 
@@ -209,4 +209,3 @@ CASE
 |8       |2        |2020-01-10 00:15:02|23.40   |15      |NULL               |
 |9       |2        |NULL       |NULL    |NULL   |Customer Cancellation       |
 |10      |1        |2020-01-11 18:50:20|10.00   |10      |NULL               |
-
