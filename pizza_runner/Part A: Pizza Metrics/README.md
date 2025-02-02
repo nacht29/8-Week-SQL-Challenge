@@ -88,20 +88,20 @@ SELECT
 	pizza.pizza_name,
 	COUNT(*) AS successful_delivery
 FROM
-	std_customer_order AS tco
+	std_customer_order AS co
 JOIN pizza_names AS pizza
-	ON pizza.pizza_id = tco.pizza_id
-JOIN std_runner_order AS tro
-	ON tco.order_id = tro.order_id
-	AND tro.distance > 0 AND tro.distance IS NOT NULL
-	AND tro.distance > 0 AND tro.duration IS NOT NULL
-	AND tro.cancellation IS NULL
+	ON pizza.pizza_id = co.pizza_id
+JOIN std_runner_order AS ro
+	ON co.order_id = ro.order_id
+	AND ro.distance > 0 AND ro.distance IS NOT NULL
+	AND ro.distance > 0 AND ro.duration IS NOT NULL
+	AND ro.cancellation IS NULL
 GROUP BY
 	pizza.pizza_name;
 ```
 
 - Use ```COUNT```  to calcute the number of entries for succesful deliveries.
-- Filter out unsuccessful deliveries, use ```JOIN``` to combine ```std_customer_order``` (aliased as ```tco```) and ```std_runner_order``` (aliased as ```tro```) where both the delivery ```distance``` and ```duration``` are not missing and are larger than 0. Also, ```cancellation``` needs to be NULL, which means the delivery did not get scheduled.
+- Filter out unsuccessful deliveries, use ```JOIN``` to combine ```std_customer_order``` (aliased as ```co```) and ```std_runner_order``` (aliased as ```ro```) where both the delivery ```distance``` and ```duration``` are not missing and are larger than 0. Also, ```cancellation``` needs to be NULL, which means the delivery did not get scheduled.
 - Use ```COUNT``` and ```GROUP BY``` to calculate the number of successful deliveries for each pizza seperately.
 
 
@@ -152,20 +152,20 @@ GROUP BY
 
 ```sql
 SELECT
-	tco.customer_id,
+	co.customer_id,
 	pizza.pizza_name,
 	COUNT(pizza.pizza_name) AS ordered
 FROM
-	std_customer_order AS tco
+	std_customer_order AS co
 JOIN pizza_names AS pizza
-	ON pizza.pizza_id = tco.pizza_id
+	ON pizza.pizza_id = co.pizza_id
 WHERE
 	pizza.pizza_name = 'Meatlovers' OR pizza.pizza_name = 'Vegetarian'
 GROUP BY
-	tco.customer_id,
+	co.customer_id,
 	pizza.pizza_name
 ORDER BY
-	tco.customer_id;
+	co.customer_id;
 ```
 
 - Use ```COUNT``` and ```GROUP BY``` to calculate the number of orders for each pizza separately. The ```GROUP BY``` clause also ensures the calculation is done for each customer with a unique ```customer_id``` separately.
@@ -279,7 +279,7 @@ WHERE
 ```sql
 WITH delivered AS (
 	SELECT
-		tco.customer_id,
+		co.customer_id,
 		CASE
 			WHEN exclusions IS NULL AND extras IS NULL
 				THEN 'N'
@@ -287,9 +287,9 @@ WITH delivered AS (
 				'Y'
 			END AS changed
 	FROM
-		std_customer_order AS tco
-	JOIN std_runner_order AS tro
-		ON tco.order_id = tro.order_id
+		std_customer_order AS co
+	JOIN std_runner_order AS ro
+		ON co.order_id = ro.order_id
 		AND (distance > 0 AND distance IS NOT NULL)
 		AND (duration > 0 AND duration IS NOT NULL)
 		AND (cancellation IS NULL)
@@ -332,19 +332,19 @@ GROUP BY
 ```sql
 CREATE TEMPORARY TABLE IF NOT EXISTS delivered AS
 SELECT
-	tco.order_id,
-	tco.exclusions,
-	tco.extras
+	co.order_id,
+	co.exclusions,
+	co.extras
 FROM
-	std_customer_order AS tco
-JOIN std_runner_order AS tro
-	ON tco.order_id = tro.order_id
+	std_customer_order AS co
+JOIN std_runner_order AS ro
+	ON co.order_id = ro.order_id
 	AND (distance > 0 AND distance IS NOT NULL)
 	AND (duration > 0 AND duration IS NOT NULL)
 	AND (cancellation IS NULL)
 WHERE
-	tco.exclusions IS NOT NULL
-	AND tco.extras IS NOT NULL;
+	co.exclusions IS NOT NULL
+	AND co.extras IS NOT NULL;
 
 -- View the data
 SELECT * FROM delivered;
@@ -381,19 +381,19 @@ DROP TABLE IF EXISTS delivered;
 ```sql
 WITH delivered AS (
 	SELECT
-		tco.order_id,
-		tco.exclusions,
-		tco.extras
+		co.order_id,
+		co.exclusions,
+		co.extras
 	FROM
-		std_customer_order AS tco
-	JOIN std_runner_order AS tro
-		ON tco.order_id = tro.order_id
+		std_customer_order AS co
+	JOIN std_runner_order AS ro
+		ON co.order_id = ro.order_id
 		AND (distance > 0 AND distance IS NOT NULL)
 		AND (duration > 0 AND duration IS NOT NULL)
 		AND (cancellation IS NULL)
 	WHERE
-		tco.exclusions IS NOT NULL
-		AND tco.extras IS NOT NULL
+		co.exclusions IS NOT NULL
+		AND co.extras IS NOT NULL
 )
 
 SELECT

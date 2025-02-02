@@ -35,19 +35,19 @@ GROUP BY
 
 ```sql
 SELECT
-	tro.runner_id,
+	ro.runner_id,
 	ROUND(
 		AVG(
-			TIMESTAMPDIFF(MINUTE, tco.order_time, tro.pickup_time)) ,2) AS avg_pickup_time
+			TIMESTAMPDIFF(MINUTE, co.order_time, ro.pickup_time)) ,2) AS avg_pickup_time
 FROM
-	std_runner_order AS tro
-JOIN std_customer_order AS tco
-	ON tco.order_id = tro.order_id
-	AND tro.distance > 0 AND tro.distance IS NOT NULL
-	AND tro.duration > 0 AND tro.duration IS NOT NULL
-	AND tro.cancellation IS NULL
+	std_runner_order AS ro
+JOIN std_customer_order AS co
+	ON co.order_id = ro.order_id
+	AND ro.distance > 0 AND ro.distance IS NOT NULL
+	AND ro.duration > 0 AND ro.duration IS NOT NULL
+	AND ro.cancellation IS NULL
 GROUP BY
-	tro.runner_id;
+	ro.runner_id;
 ```
 
 - Use ```AVG``` and ```TIMESTAMPDIFF``` to calculate the average time for each runner to arrive (and pick up) their orders at the Pizza Runner HQ. The time taken is calculated by the difference between the time when the order is placed (```order_time```), to the time it is picked up (```pickup_time```).
@@ -73,22 +73,22 @@ GROUP BY
 ```sql
 WITH order_volume_and_prep_time AS (
 	SELECT
-		tco.order_id,
+		co.order_id,
 		COUNT(*) AS order_volume,
 		TIMESTAMPDIFF(
 			MINUTE,
-			MIN(tco.order_time),
-			MAX(tro.pickup_time)
+			MIN(co.order_time),
+			MAX(ro.pickup_time)
 		) AS total_prep_time
 	FROM
-		std_customer_order AS tco
-	JOIN std_runner_order AS tro
-		ON tco.order_id = tro.order_id
-		AND tro.distance > 0 AND tro.distance IS NOT NULL
-		AND tro.duration > 0 AND tro.duration IS NOT NULL
-		AND tro.cancellation IS NULL
+		std_customer_order AS co
+	JOIN std_runner_order AS ro
+		ON co.order_id = ro.order_id
+		AND ro.distance > 0 AND ro.distance IS NOT NULL
+		AND ro.duration > 0 AND ro.duration IS NOT NULL
+		AND ro.cancellation IS NULL
 	GROUP BY
-		tco.order_id
+		co.order_id
 )
 
 SELECT
@@ -125,17 +125,17 @@ GROUP BY
 
 ```sql
 SELECT
-	tco.customer_id,
-	ROUND(AVG(tro.distance), 2) AS average_distance
+	co.customer_id,
+	ROUND(AVG(ro.distance), 2) AS average_distance
 FROM
-	std_customer_order AS tco
-JOIN std_runner_order AS tro
-	ON tco.order_id = tro.order_id
-	AND tro.distance > 0 AND tro.distance IS NOT NULL
-	AND tro.duration > 0 AND tro.duration IS NOT NULL
-	AND tro.cancellation IS NULL
+	std_customer_order AS co
+JOIN std_runner_order AS ro
+	ON co.order_id = ro.order_id
+	AND ro.distance > 0 AND ro.distance IS NOT NULL
+	AND ro.duration > 0 AND ro.duration IS NOT NULL
+	AND ro.cancellation IS NULL
 GROUP BY
-	tco.customer_id;
+	co.customer_id;
 ```
 - Use ```AVG``` and ```GROUP BY``` to calculate the average distance travelled for each customer sepatately.
 - Use ```ROUND``` to format the results to 2 decimal places.
@@ -195,7 +195,7 @@ SELECT
 	duration,
 	ROUND((distance / duration), 2) AS avg_speed
 FROM 
-	std_runner_order AS tro
+	std_runner_order AS ro
 WHERE
 	distance > 0 
 	AND duration > 0
@@ -336,8 +336,8 @@ Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challen
 ```sql
 WITH delivery_record AS (
 	SELECT
-		tco.order_id,
-		tro.runner_id,
+		co.order_id,
+		ro.runner_id,
 		CASE
 			WHEN (duration > 0 AND duration IS NOT NULL 
 			AND distance > 0 AND distance IS NOT NULL
@@ -347,9 +347,9 @@ WITH delivery_record AS (
 				'N'
 		END AS success
 	FROM
-		std_customer_order AS tco
-	LEFT JOIN std_runner_order AS tro
-		ON tco.order_id = tro.order_id
+		std_customer_order AS co
+	LEFT JOIN std_runner_order AS ro
+		ON co.order_id = ro.order_id
 )
 
 SELECT
