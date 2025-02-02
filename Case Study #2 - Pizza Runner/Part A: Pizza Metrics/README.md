@@ -558,4 +558,4 @@ SELECT * FROM order_by_day_ranked;
 
 ***
 
-Part A ends here. Click **[here to continue to Part B](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**.
+Part A ends here. Click **[here to continue to Part B](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**.

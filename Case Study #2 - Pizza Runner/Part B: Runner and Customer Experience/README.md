@@ -327,7 +327,7 @@ Difference in percentage: 59.18%
 
 ![Image](https://github.com/user-attachments/assets/0e04ec57-7ba3-4388-af2e-528cc5630c90)
 
-Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**.
+Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**.
 
 ***
 
@@ -371,4 +371,4 @@ GROUP BY
 
 ***
 
-Part B ends here. Click **[here to continue to Part C](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**.
+Part B ends here. Click **[here to continue to Part C](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20C%3A%20Ingredient%20Optimisation)**.

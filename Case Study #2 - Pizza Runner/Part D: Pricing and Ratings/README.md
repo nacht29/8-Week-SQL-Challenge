@@ -241,3 +241,7 @@ FROM
 |73.38 |
 
 - The profit (after subtracting delivery fees) is $73.38.
+
+***
+
+Part D ends here. Click **[here to continue to Part E](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20C%3A%20Bonus%20Questions)**.

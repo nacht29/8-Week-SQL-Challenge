@@ -28,36 +28,36 @@ Danny wants to use the data to answer a few simple questions about his customers
 <a id="data-cleaning"></a>
 ## 🛠️ Data Cleaning and Transformation
 
-- To view the **full script**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/cleaning.sql)**.
-- To view the **detailed explanation**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/README.md)**.
+- **[Full SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/cleaning.sql)**.
+- **[Detailed explanation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/README.md)**.
 
 ***
 
 ## Part A - Pizza Metrics
 
-- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20A%3A%20Pizza%20Metrics)**
+- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20A%3A%20Pizza%20Metrics)**
 
 ***
 
 ## Part B - Runner and Customer Experience (Python)
 
-- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**
-- **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**
+- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**
+- **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**
 
 ***
 
 ## Part C - Ingredient Optimisation
 
-- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation)**
+- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20C%3A%20Ingredient%20Optimisation)**
 
 ***
 
 ## Part D - Pricing and Ratings
 
-- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20D%3A%20Pricing%20and%20Ratings)**
+- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20D%3A%20Pricing%20and%20Ratings)**
 
 ***
 
 ## Part E - Bonus Questions
 
-- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/pizza_runner/Part%20E%3A%20Bonus%20Questions)**
+- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20E%3A%20Bonus%20Questions)**

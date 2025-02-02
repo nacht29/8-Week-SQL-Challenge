@@ -70,7 +70,7 @@ ORDER BY
 
 **2. What was the most commonly added extra?**
 
-**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q2.sql)**
+**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q2.sql)**
 
 **A. Calculate the highest number of ```extras``` (extra topping) to be added to a pizza.**
 
@@ -175,7 +175,7 @@ WHERE
 
 **3. What was the most common exclusion?**
 
-**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q3.sql)**
+**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q3.sql)**
 
 - The steps are very similiar to question 2. Just replace ```extras``` with ```exclusions```.
 
@@ -189,7 +189,7 @@ WHERE
 
 **6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?**
 
-**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q6.sql)**
+**[Click to read full script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20C%3A%20Ingredient%20Optimisation/scripts/q6.sql)**
 
 **Answer:**
 
@@ -210,3 +210,7 @@ WHERE
 
 - The most used topping is bacon.
 - The second most used topping is mushroom.
+
+***
+
+Part C ends here. Click **[here to continue to Part D](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20D%3A%20Pricing%20and%20Ratings)**.
