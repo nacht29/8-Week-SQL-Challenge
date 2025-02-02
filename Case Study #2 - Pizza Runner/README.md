@@ -5,7 +5,7 @@
 ## 📚 Table of Contents
 - [Task Summary](#task-summary)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
-- [Data Cleaning and Transformation](#data-cleaning-and-transformation)
+- [Data Cleaning and Transformation](#data-cleaning)
 - [Part A - Pizza Metrics](#part-a---pizza-metrics)
 - [Part B - Runner and Customer Experience (Python)](#part-b---runner-and-customer-experience-python)
 - [Part C - Ingredient Optimisation](#part-c---ingredient-optimisation)
@@ -25,6 +25,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ***
 
+<a id="data-cleaning"></a>
 ## 🛠️ Data Cleaning and Transformation
 
 - To view the **full script**, please click **[here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/pizza_runner/data-cleaning/cleaning.sql)**.
