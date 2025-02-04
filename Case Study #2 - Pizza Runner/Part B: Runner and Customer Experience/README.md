@@ -261,7 +261,7 @@ FROM
 
 **Trend visualisation:**
 
-![Image](https://github.com/user-attachments/assets/9cc640c9-7762-48fe-aa7b-86ecbc4bf772)
+![Image](https://github.com/user-attachments/assets/0a0bf622-0c63-4011-b171-f2797f79ce82)
 
 This can answer the following questions:
 
@@ -325,9 +325,9 @@ Difference in percentage: 59.18%
 
 **Visualisation:**
 
-![Image](https://github.com/user-attachments/assets/0e04ec57-7ba3-4388-af2e-528cc5630c90)
+![Image](https://github.com/user-attachments/assets/2ab5aa99-f0f5-41f1-8bb6-f94ef24c6a1f)
 
-Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/python-visualisation/partB.ipynb)**.
+Check out the **[Python code here](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/python-visualisation/partB.ipynb)**.
 
 ***
 
