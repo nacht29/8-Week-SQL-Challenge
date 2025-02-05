@@ -361,6 +361,9 @@ GROUP BY
 	runner_id;
 ```
 
+- Create a CTE that stores the the success of each delivery for each runner. The table looks like this:
+
+
 **Answer:**
 
 |runner_id|del_percentage|
