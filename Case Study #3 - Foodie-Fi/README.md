@@ -5,11 +5,7 @@
 ## 📚 Table of Contents
 - [Introduction](#introduction)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
-- [Data Cleaning and Transformation](#data-cleaning)
-- [Part A - Customer Journey](#customer-journey)
-- [Part B - Data Analysis Questions](#data-analysis)
-- [Part C - Challenge Payment Questions](#challenge-payment)
-- [Part D - Outside the Box Questions](#bonus)
+- [Data Analysis Questions](#data-analysis)
 
 ***
 
@@ -27,35 +23,31 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 
 ![Image](https://github.com/user-attachments/assets/e8470e56-d985-43cf-b3ad-f0073593e090)
 
-***
+**Table 1: ```plans```**
 
-<a id="data-cleaning"></a>
-## 🛠️ Data Cleaning and Transformation
+Customers can choose which plans to join Foodie-Fi when they first sign up.
 
-- **[Full SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/cleaning.sql)**.
+Basic plan customers have limited access and can only stream their videos and is only available monthly at $9.90
 
-- **[Detailed explanation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/README.md)**.
+Pro plan customers have no watch time limits and are able to download videos for offline viewing. Pro plans start at $19.90 a month or $199 for an annual subscription.
 
-***
+Customers can sign up to an initial 7 day free trial will automatically continue with the pro monthly subscription plan unless they cancel, downgrade to basic or upgrade to an annual pro plan at any point during the trial.
 
-<a id="customer-journey"></a>
-## Part A - Customer Journey
+When customers cancel their Foodie-Fi service - they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
 
-- **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20A%3A%20Pizza%20Metrics)**
+---
+
+**Table 2: ```subscriptions```**
+
+Customer subscriptions show the exact date where their specific plan_id starts.
+
+If customers downgrade from a pro plan or cancel their subscription - the higher plan will remain in place until the period is over - the start_date in the subscriptions table will reflect the date that the actual plan changes.
+
+When customers upgrade their account from a basic plan to a pro or annual pro plan - the higher plan will take effect straightaway.
+
+When customers churn - they will keep their access until the end of their current billing period but the start_date will be technically the day they decided to cancel their service.
 
 ***
 
 <a id="data-analysis"></a>
-## Part B - Data Analysis Questions
-
-***
-
-<a id="challenge-payment"></a>
-## Part C - Challenge Payment Questions
-
-***
-
-<a id="bonus"></a>
-## Part D - Outside the Box Questions
-
-***
+## Data Analysis Questions
