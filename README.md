@@ -12,6 +12,7 @@ Special thanks to **[Katie](https://github.com/katiehuangx)** for inspiring me o
 
 - ### [Case Study #1: Danny's Diner](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%231%20-%20Danny's%20Diner/README.md)
 - ### [Case Study #2: Pizza Runner](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/README.md) (Python)
+- ### [Case Study #3: Foodie-fi](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%233%20-%20Foodie-Fi)
 
 ***
 
