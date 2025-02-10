@@ -267,6 +267,21 @@ GROUP BY plans.plan_name;
 **8. How many customers have upgraded to an annual plan in 2020?**
 
 ```sql
+SELECT COUNT(DISTINCT customer_id) AS pro_monthly_usr
+FROM subscriptions
+WHERE plan_id = 3 AND start_date <= '2020-12-31'
+```
+
+**Answer:**
+
+|pro_monthly_usr|
+|---------------|
+|195            |
+
+---
+
+Alternatively, use this to get a full view of the picture
+```sql
 WITH latest_plan AS (
 	SELECT 
 		customer_id,
@@ -330,6 +345,43 @@ WHERE
 	AND ep2.earliest = 1;
 ```
 
+- Create a CTE that arranges each customer's plan in ascending order of ```start_date``` aka starting date.
+- Use ```AVG``` to calculate the average difference, in days, between each customer's earliest plan to the pro annual plan.
+- Use ```ROUND``` to format the output to 2 decimal places.
+
+---
+
+Alternatively we can do this:
+
+```sql
+WITH pro_annual AS (
+	SELECT
+		customer_id,
+		start_date
+	FROM subscriptions
+	WHERE plan_id = 3
+),
+
+trial AS (
+	SELECT
+		customer_id,
+		start_date
+	FROM subscriptions
+	WHERE plan_id = 0
+)
+
+SELECT
+	ROUND(AVG(pa.start_date - tr.start_date) ,2) AS avg_days
+FROM pro_annual AS pa
+JOIN trial AS tr
+	ON pa.customer_id = tr.customer_id;
+```
+
+- Create a CTE, ```pro_annual``` to filter and get the data of customers who has upgraded to the pro annual plan.
+- Create another CTE, ```trial``` to filter and get the date when each customer joined and used the trial plan.
+- Use ```AVG``` to calculate the average difference, in days, between each customer's trial plan to the pro annual plan.
+- Use ```ROUND``` to format the output to 2 decimal places.
+
 **Answer:**
 
 |avg_days|
@@ -339,6 +391,78 @@ WHERE
 ---
 
 **10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)**
+
+First of all, it is important to note that the range 0-30, 31-60, ... is not logical as 0-30 is actually 31 days. A more correct representation would be 0-29, 30-59, ... or 1-30, 31-60, ...
+
+**First approach (0-29, 30-59, ...):**
+
+- Each customer's upgrade time falls into a specific range, calculated using:
+	- ```bucket_index = ⌊(annual_date − trial_date − 1)/30⌋```
+	
+	The ```bucket_index``` values are mapped to a specific range:
+
+	- 0 --> 0-29
+	- 1 --> 30-59
+	- 2 --> 60-89
+	- 3 --> 90-119
+
+	For example, if we put 40 into the formula, we get 1, hence the second range, which is 31-59.
+
+- We then, we calculate the bucket range as:
+	- ```Start = bucket_index × 30```
+	- ```End = (bucket_index + 1) × 30 - 1```
+
+**Visualisation:**
+
+| Days Taken to Upgrade| Bucket Index (FLOOR(days / 30))| Start          |End                    |Final bucket|
+|----------------------|--------------------------------|----------------|-----------------------|------------|
+| 10                   | FLOOR(10 / 30) = 0             |0 * 30 = 0      | (0 + 1) * 30 - 1 = 29 |0-29        |
+| 25                   | FLOOR(25 / 30) = 0             |0 * 30 = 0      | (0 + 1) * 30 - 1 = 29 |0-29        |
+| 40                   | FLOOR(40 / 30) = 1             |1 * 30 = 30     | (2 + 1) * 30 - 1 = 59 |30-59       |
+| 70                   | FLOOR(70 / 30) = 2             |2 * 30 = 60     | (3 + 1) * 30 - 1 = 89 |60-89       |
+| 95                   | FLOOR(95 / 30) = 3             |3 * 30 = 90     | (4 + 1) * 30 - 1 = 119|90-119      |
+
+---
+
+**Second apporach (1-30, 31-60, ...):**
+
+- Each customer's upgrade time falls into a specific range, calculated using:
+	- ```bucket_index = ⌊(annual_date − trial_date − 1)/30⌋```
+	
+	This assigns values to specific ranges. For example, if we put 40 into the formula, we get 1, hence the second range, which is 31-60(we start counting from 0).
+
+	Note the ```- 1``` in the formula. This is to prevent this case:
+
+	|Days taken to upgrade|(days / 30) |FLOOR(days / 30)|bucket_index|range|
+	|---------------------|------------|----------------|------------|-----|
+	|30                   |30/30 = 1.00|FLOOR(1.00) = 1 |1           |31-60|
+	|31                   |31/30 = 1.03|FLOOR(1.03) = 1 |1           |31-60|
+
+	The range for value 30 is wrong.
+
+	Now if we add the ```- 1```:
+
+	|Days taken to upgrade|(days - 1 / 30)   |FLOOR(days / 30)|bucket_index|range|
+	|---------------------|------------------|----------------|------------|-----|
+	|30                   |(30 - 1)/30 = 0.96|FLOOR(0.96) = 0 |0           | 1-30|
+	|31                   |(31 - 1)/30 = 1.00|FLOOR(1.00) = 1 |1           |31-60|
+
+- We then, we calculate the bucket range as:
+	- ```Start = bucket_index × 30 + 1```
+	- ```End = (bucket_index + 1) × 30```
+
+	Note the + 1 in this case as well, because by default the values would be 0-29, 30-59, ... We need to manually increment the values by 1 for the representation that we want.
+
+**Visualisation:**
+
+| Days Taken to Upgrade| Bucket Index (FLOOR((days - 1) / 30))       | Start          |End           | Final Bucket|
+|----------------------|---------------------------------------------|----------------|--------------|-------------|
+| 10                   | FLOOR((10 - 1) / 30) = FLOOR(9 / 30) =		0| 0 * 30 + 1 = 1 | 1 * 30 = 30  | 1-30 days   |
+| 25                   | FLOOR((25 - 1) / 30) = FLOOR(24 / 30) =	0| 0 * 30 + 1 = 1 | 1 * 30 = 30  | 1-30 days   |
+| 40                   | FLOOR((40 - 1) / 30) = FLOOR(39 / 30) =	1| 1 * 30 + 1 = 31| 2 * 30 = 60  | 31-60 days  |
+| 70                   | FLOOR((70 - 1) / 30) = FLOOR(69 / 30) =	2| 2 * 30 + 1 = 61| 3 * 30 = 90  | 61-90 days  |
+| 95                   | FLOOR((95 - 1) / 30) = FLOOR(94 / 30) =	3| 3 * 30 + 1 = 91| 4 * 30 = 120 | 91-120 days |
+| 120                  | FLOOR((120 - 1) / 30) = FLOOR(119 / 30) =	3| 3 * 30 + 1 = 91| 4 * 30 = 120 | 91-120 days |
 
 ---
 
