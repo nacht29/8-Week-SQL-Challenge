@@ -12,6 +12,7 @@ FROM subscriptions;
 |all_customers|
 |-------------|
 |1000         |
+
 ---
 
 - Foodie-fi has had 1000 customers.
@@ -98,6 +99,8 @@ GROUP BY
 ORDER BY plans.plan_id;
 ```
 
+- Use ```COUNT``` to calculate the number of customers who have churned and divide it by the total number of unique customers.
+
 **Answer:**
 
 |count|percentage(%)|
@@ -127,6 +130,9 @@ SELECT
 FROM plan_sequence
 WHERE plan_id = 4 AND plan_order = 2;
 ```
+
+- Create a CTE and label each customer's plans in order of ```start_date.```
+- Select the customers who have 'churn' (```plan_id``` = 4) labelled as 2, aka the second plan.
 
 ---
 
@@ -163,6 +169,9 @@ SELECT
 FROM first_plans
 WHERE first_plan = 0 AND second_plan = 4;
 ```
+
+- Create a CTE and label each customer's plans in order of ```start_date```.
+- Select the customers whose first plan is 'trial' (```plan_id``` = 1 ) and second plan is 'churn' (```plan_id``` = 4).
 
 **Answer:**
 
@@ -205,6 +214,10 @@ FROM conversion
 GROUP BY plan_id
 ORDER BY plan_id;
 ```
+
+- Create a CTE and label each customer's plans in order of ```start_date```.
+- Create another CTE to filter customers who has more than 1 plan.
+- Divide the number of customers by the total number of unique customers and get the conversion rate for each plan.
 
 **Answer:**
 
@@ -507,8 +520,14 @@ FROM compare
 WHERE pro > basic;
 ```
 
+- Create a CTE that labels all customers' plans in decending order of ```start_date```. The latest plan will be labelled as 1.
+- Create another CTE that compare the order of their pro monthly plan and their basic monthly plan. If the pro monthly plan is ranked lower than a basic monnthly plan (larger rank number), that means they have downgraded.
+- Calculate the number of such customers using ```COUNT```.
+
 **Answer:**
 
 |downgraded|
 |----------|
 |0         |
+
+- No customers have downgraded.
