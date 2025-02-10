@@ -1,3 +1,5 @@
+# Data Analyst Questions
+
 **1. How many customers has Foodie-Fi ever had?**
 
 ```sql
@@ -405,8 +407,8 @@ JOIN trial AS tr
 
 **10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)**
 
-- [View SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Part%20B%20-%20Data%20Analysis%20Questions/q10-scripts_and_answer/first_approach.sql)
-- [View output](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Part%20B%20-%20Data%20Analysis%20Questions/q10-scripts_and_answer/first_approach_answer.md)
+- [View SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Data%20Analyst%20Questions/q10-scripts_and_answer/first_approach.sql)
+- [View output](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Data%20Analyst%20Questions/q10-scripts_and_answer/first_approach_answer.md)
 
 First of all, it is important to note that the range 0-30, 31-60, ... is not logical as 0-30 is actually 31 days. A more correct representation would be 0-29, 30-59, ... or 1-30, 31-60, ...
 
@@ -442,8 +444,8 @@ First of all, it is important to note that the range 0-30, 31-60, ... is not log
 
 **Second apporach (1-30, 31-60, ...):**
 
-- [View SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Part%20B%20-%20Data%20Analysis%20Questions/q10-scripts_and_answer/second_approach.sql)
-- [View output](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Part%20B%20-%20Data%20Analysis%20Questions/q10-scripts_and_answer/second_approach_answer.md)
+- [View SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Data%20Analyst%20Questions/q10-scripts_and_answer/second_approach.sql)
+- [View output](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Data%20Analyst%20Questions/q10-scripts_and_answer/second_approach_answer.md)
 
 - Each customer's upgrade time falls into a specific range, calculated using:
 	- ```bucket_index = ⌊(annual_date − trial_date − 1)/30⌋```

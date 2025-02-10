@@ -51,3 +51,5 @@ When customers churn - they will keep their access until the end of their curren
 
 <a id="data-analysis"></a>
 ## Data Analysis Questions
+
+- [View questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%233%20-%20Foodie-Fi/Data%20Analyst%20Questions/README.md)
