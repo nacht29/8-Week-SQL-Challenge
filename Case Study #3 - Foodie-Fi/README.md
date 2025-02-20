@@ -25,19 +25,19 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 
 **Table 1: ```plans```**
 
-Customers can choose which plans to join Foodie-Fi when they first sign up.
+![Image](https://github.com/user-attachments/assets/f78b29f0-eff6-4ed1-950c-ccd9d5d61e28)
 
-Basic plan customers have limited access and can only stream their videos and is only available monthly at $9.90
+- Trial — Customer sign up to an initial 7 day free trial and will automatically continue with the pro monthly subscription plan unless they cancel, downgrade to basic or upgrade to an annual pro plan at any point during the trial.
+- Basic plan — Customers have limited access and can only stream their videos and is only available monthly at $9.90.
+- Pro plan — Customers have no watch time limits and are able to download videos for offline viewing. Pro plans start at $19.90 a month or $199 for an annual subscription.
 
-Pro plan customers have no watch time limits and are able to download videos for offline viewing. Pro plans start at $19.90 a month or $199 for an annual subscription.
-
-Customers can sign up to an initial 7 day free trial will automatically continue with the pro monthly subscription plan unless they cancel, downgrade to basic or upgrade to an annual pro plan at any point during the trial.
-
-When customers cancel their Foodie-Fi service - they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
+When customers cancel their subscription, their plans are set to churn, and the price becomes null. However, their plan before churn remains effencitve until the end of the billing period.
 
 ---
 
 **Table 2: ```subscriptions```**
+
+![Image](https://github.com/user-attachments/assets/7724c354-fcde-4270-aabf-837fa31a9b2c)
 
 Customer subscriptions show the exact date where their specific plan_id starts.
 
