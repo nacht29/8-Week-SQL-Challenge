@@ -26,7 +26,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 ***
 
 <a id="data-cleaning"></a>
-## 🛠️ Data Cleaning and Transformation
+## 🛠️ Data Cleaning and Transformation (Python)
 
 - **[Full SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/cleaning.sql)**
 - **[Detailed explanation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/README.md)**
