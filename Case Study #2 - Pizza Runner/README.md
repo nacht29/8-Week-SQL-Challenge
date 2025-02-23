@@ -28,9 +28,9 @@ Danny wants to use the data to answer a few simple questions about his customers
 <a id="data-cleaning"></a>
 ## 🛠️ Data Cleaning and Transformation
 
-- **[Full SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/cleaning.sql)**.
-- **[Detailed explanation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/README.md)**.
-
+- **[Full SQL script](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/cleaning.sql)**
+- **[Detailed explanation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/data-cleaning/README.md)**
+- **[Cleaning data with Python](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/python-notebooks/cleaning.ipynb)**
 ***
 
 ## Part A - Pizza Metrics
@@ -42,7 +42,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 ## Part B - Runner and Customer Experience (Python)
 
 - **[Questions and solutions](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/Part%20B%3A%20Runner%20and%20Customer%20Experience/README.md)**
-- **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232%20-%20Pizza%20Runner/python-visualisation/partB.ipynb)**
+- **[Python analysis and visualisation](https://github.com/nacht29/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner/python-notebooks/cleaning.ipynb)**
 
 ***
 
