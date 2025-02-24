@@ -183,6 +183,8 @@ WHERE
 
 **6. What was the average speed for each runner for each delivery and do you notice any trend for these values?**
 
+Formula: ```Average speed = total distance / total time taken```
+
 First, let's create a temporary table to store the values:
 
 ```sql
